@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Help Me</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Maps template link-->
+    <string name="url_gmaps">https://maps.google.com/?q=</string>
+
+    <!--Version Mode Trial or Cost-->
+    <bool name="mode_trial">false</bool>
+
+</resources>
