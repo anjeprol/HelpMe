@@ -1,4 +1,4 @@
-package com.pramont.helpme;
+package com.pramont.helpme.Activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.pramont.helpme.R;
 
 public class MainAct extends AppCompatActivity {
 
@@ -53,15 +55,6 @@ public class MainAct extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -152,11 +145,11 @@ public class MainAct extends AppCompatActivity {
             switch (position)
             {
                 case 0:
-                    return "SECTION 1";
+                    return getString(R.string.button);
                 case 1:
-                    return "SECTION 2";
+                    return getString(R.string.conf);
                 case 2:
-                    return "SECTION 3";
+                    return getString(R.string.contacts);
             }
             return null;
         }
