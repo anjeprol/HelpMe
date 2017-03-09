@@ -7,9 +7,9 @@
     <string name="button">Button</string>
     <string name="conf">Settings</string>
     <string name="contacts">Contacts</string>
+    
     <!-- Maps template link-->
     <string name="url_gmaps">https://maps.google.com/?q=</string>
-    <string name="tesSect">SECTION 1</string>
 
     <!--Version Mode Trial or Cost-->
     <bool name="mode_trial">false</bool>
