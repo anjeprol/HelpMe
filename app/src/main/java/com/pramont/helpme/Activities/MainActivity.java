@@ -1,5 +1,6 @@
 package com.pramont.helpme.Activities;
 
+import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,18 +9,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.pramont.helpme.Emails.Gmail;
 import com.pramont.helpme.Fragments.Buttons;
 import com.pramont.helpme.Fragments.Contacts;
 import com.pramont.helpme.Fragments.Settings;
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final static String TAG = "MainActivity";
 
     private Toolbar     mToolbar;
     private TabLayout   mTabLayout;
@@ -41,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager(mViewPager);
         setupTabIcons();
+
+        try {
+            onPermissionChecked();
+            Log.d(Constants.TAG_EMAIL,getString(R.string.email_sending));
+        } catch (Exception e) {
+            Log.e(Constants.TAG_EMAIL,getString(R.string.error)+e.getMessage(), e);
+        }
     }
 
     /*
@@ -102,6 +115,19 @@ public class MainActivity extends AppCompatActivity {
 
             // return null to display only the icon
             return null;
+        }
+    }
+
+    public void onPermissionChecked()
+    {
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //Sending mail
+            Gmail.sendMail();
         }
     }
 
