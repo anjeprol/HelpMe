@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
+    /*
+    * Method to add the icons to each tab from toolBar
+    * */
     private void setupTabIcons() {
         int[] tabIcons = {
                 R.drawable.ic_button_24dp,
@@ -55,17 +58,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    * Method to add the fragments into the viewPager
+    * */
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new Buttons(), "ONE");
-        adapter.addFrag(new Contacts(),"TWO");
-        adapter.addFrag(new Settings(), "THREE");
+        adapter.addFrag(new Buttons(), getString(R.string.title_1));
+        adapter.addFrag(new Contacts(),getString(R.string.title_2));
+        adapter.addFrag(new Settings(),getString(R.string.title_3));
         viewPager.setAdapter(adapter);
     }
 
+
+        /*
+        * Class for setup the viewPager using the FragmentPagerAdapter
+        * */
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final List<Fragment> mFragmentList      = new ArrayList<>();
+        private final List<String>   mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);

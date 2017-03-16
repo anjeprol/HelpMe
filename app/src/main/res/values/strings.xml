@@ -16,6 +16,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">MainActivity</string>
+
+    <!-- title name from each tab-->
+    <string name="title_1">Button</string>
+    <string name="title_2">Contacts</string>
+    <string name="title_3">Settings</string>
 
 </resources>
