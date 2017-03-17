@@ -1,8 +1,29 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/fragment_butt"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="#dcddde"
              tools:context="com.pramont.helpme.Fragments.Buttons">
+
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_red_button"
+        android:text="@string/press_it"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="60dp"
+        android:textStyle="bold"/>
+
+    <ImageButton
+        android:id="@+id/imgBtn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:src="@drawable/ic_red_button"/>
 
 </FrameLayout>

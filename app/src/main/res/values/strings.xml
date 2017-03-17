@@ -4,6 +4,7 @@
     <bool name="mode_trial">false</bool>
 
     <string name="app_name">Help Me</string>
+    <string name="subject_email_app">Panic Button Message</string>>
     <string name="action_settings">About</string>
 
     <!-- Menu labels-->
@@ -14,9 +15,6 @@
     <!-- Maps template link-->
     <string name="url_gmaps">https://maps.google.com/?q=</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- title name from each tab-->
     <string name="title_1">Button</string>
     <string name="title_2">Contacts</string>
@@ -25,5 +23,9 @@
     <!-- Log Messages -->
     <string name="email_sending">Sending Email...</string>
     <string name="error">ERROR:</string>
+
+    <!-- Messages and texts-->
+    <string name="press_it">Press it !</string>
+    <string name="active">Activated</string>
 
 </resources>
