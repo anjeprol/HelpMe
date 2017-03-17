@@ -2,6 +2,27 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:background="@color/background"
              tools:context="com.pramont.helpme.Fragments.Contacts">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_dimen"/>
+        <include layout="@layout/template_contacts"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_dimen"/>
+        <include layout="@layout/template_contacts"/>
+
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

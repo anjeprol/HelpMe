@@ -3,7 +3,7 @@
              android:id="@+id/fragment_butt"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#dcddde"
+             android:background="@color/background"
              tools:context="com.pramont.helpme.Fragments.Buttons">
 
 
