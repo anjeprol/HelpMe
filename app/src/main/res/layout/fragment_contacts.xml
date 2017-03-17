@@ -19,10 +19,20 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_dimen"/>
         <include layout="@layout/template_contacts"/>
-
-
-
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_dimen"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_button"
+            android:textColor="@color/background"
+            android:textSize="30dp"
+            android:text="+"
+            android:layout_gravity="center"/>
     </LinearLayout>
+
+
 
 
 </FrameLayout>
