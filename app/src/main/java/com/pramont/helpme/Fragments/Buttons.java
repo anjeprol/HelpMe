@@ -2,15 +2,18 @@ package com.pramont.helpme.Fragments;
 
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.pramont.helpme.Emails.Gmail;
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +36,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_buttons, container, false);
 
         mImgButton  = (ImageButton) rootView.findViewById(R.id.imgBtn);
-        mMessage_tv = (TextView) rootView.findViewById(R.id.tv);
+        mMessage_tv = (TextView) rootView.findViewById(R.id.tv_message);
 
         mImgButton.setOnClickListener(this);
 
@@ -49,7 +52,14 @@ public class Buttons extends Fragment implements View.OnClickListener {
                 {
                     mImgButton.setImageResource(R.drawable.ic_green_button);
                     mMessage_tv.setText(getString(R.string.active));
-                    isFirst=false;
+                    isFirst = false;
+                    try {
+                        //To send the email after checking permissions
+                        onPermissionChecked();
+                        Log.d(Constants.TAG_EMAIL,getString(R.string.email_sending));
+                    } catch (Exception e) {
+                        Log.e(Constants.TAG_EMAIL,getString(R.string.error)+e.getMessage(), e);
+                    }
                 }else {
                     mImgButton.setImageResource(R.drawable.ic_red_button);
                     mMessage_tv.setText(getString(R.string.press_it));
@@ -58,4 +68,21 @@ public class Buttons extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    /*
+    * Methond to send the email
+    * */
+    public void onPermissionChecked()
+    {
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //Sending mail
+            Gmail.sendMail();
+        }
+    }
+
 }

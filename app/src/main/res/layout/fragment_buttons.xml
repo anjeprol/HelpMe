@@ -8,14 +8,15 @@
 
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_red_button"
         android:text="@string/press_it"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="60dp"
+        android:textSize="50dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:textStyle="bold"/>
 
     <ImageButton
