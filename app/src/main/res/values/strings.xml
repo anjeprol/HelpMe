@@ -1,8 +1,9 @@
 <resources>
 
-    <!--Version Mode Trial or Cost-->
+    <!--Version Mode Trial or Cost -->
     <bool name="mode_trial">false</bool>
 
+    <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>
     <string name="subject_email_app">Panic Button Message</string>>
     <string name="action_settings">About</string>
@@ -11,6 +12,9 @@
     <string name="button">Button</string>
     <string name="conf">Settings</string>
     <string name="contacts">Contacts</string>
+    <string name="email">Email:</string>
+    <string name="phone">Phone:</string>
+
 
     <!-- Maps template link-->
     <string name="url_gmaps">https://maps.google.com/?q=</string>
@@ -27,5 +31,7 @@
     <!-- Messages and texts-->
     <string name="press_it">Press it !</string>
     <string name="active">Activated</string>
+
+
 
 </resources>
