@@ -24,7 +24,8 @@ import com.pramont.helpme.R;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class Contacts extends Fragment implements View.OnClickListener {
     private LinearLayout.LayoutParams mLayoutParams;
-    LinearLayout.LayoutParams mParamsFields;
+    LinearLayout.LayoutParams mParamsFieldsTv;
+    LinearLayout.LayoutParams mParamsFieldsEt;
     LinearLayout mContainer_contacts_lly;
     LinearLayout mEmail_container;
     LinearLayout mSpace_lly;
@@ -58,6 +59,8 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         // mContainer_contacts_lly.addView(mSpace_lly);
         mContainer_contacts_lly.addView(buttonsViews);
+
+        addSpaces();
         return rootView;
     }
 
@@ -104,33 +107,38 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * */
     private void loadContactsFields() {
 
-        addSpaces();
         // Params for text levels, margins and layOuts
-        mParamsFields = new LinearLayout.LayoutParams(180, mLayoutParams.WRAP_CONTENT);
-        mParamsFields.setMargins(50, 0, 50, 0);
+        mParamsFieldsTv = new LinearLayout.LayoutParams(180, mLayoutParams.WRAP_CONTENT);
+        mParamsFieldsTv.setMargins(50, 0, 50, 0);
 
-        mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFields);
-        mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFields);
+        // Params for text levels, margins and layOuts
+        mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, 200);
 
+       // mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
+
+
+       // mEmail_container.addView(mPhone_tv);
+        addEmailField();
+
+
+        addSpaces();
+        mId++;
+    }
+
+    private void addEmailField(){
+        mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
         mEmail_container = getEmailContLayout(mEmail_container, mId);
 
         mEmail_container.addView(mEmail_tv);
-       // mEmail_container.addView(mPhone_tv);
 
+        mEmail_et = getView(mEmail_et,
+                R.string.email_hint, mParamsFieldsEt,
+                InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+                mId);
 
-        // Params for text levels, margins and layOuts
-        mParamsFields = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, 200);
-
-        mEmail_et = getView(mEmail_et, R.string.email_hint,mParamsFields);
         mEmail_container.addView(mEmail_et);
-
-
-
         mContainer_contacts_lly.addView(mEmail_container);
-
-        addSpaces();
-        mId++;
     }
 
     /*
@@ -158,12 +166,13 @@ public class Contacts extends Fragment implements View.OnClickListener {
     /*
     *  Method to set the edit text
     * */
-    private EditText getView(EditText editText, int idHintString,LinearLayout.LayoutParams params){
+    private EditText getView(EditText editText, int idHintString,LinearLayout.LayoutParams params, int inputType, int id){
         editText = new EditText(getContext());
         editText.setLayoutParams(params);
         editText.setHint(idHintString);
         editText.setBackground(null);
-        editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        editText.setInputType(inputType);
+        editText.setId(id);
         return  editText;
     }
 }
