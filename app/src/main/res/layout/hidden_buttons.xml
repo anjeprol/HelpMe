@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:background="@drawable/green_circle_button"
-        android:text="Add"
+        android:text="@string/label_add"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/background"
 
         />
 
@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/red_circle_button"
-        android:text="Remove"
+        android:text="@string/label_remove"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/background"
         />
 
 </LinearLayout>

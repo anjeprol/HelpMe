@@ -16,6 +16,8 @@
     <string name="phone">Phone:</string>
     <string name="email_hint">example@email.com</string>
     <string name="phone_hint">00-0000-0000</string>
+    <string name="label_add">Add</string>
+    <string name="label_remove">Remove</string>
 
 
     <!-- Maps template link-->
@@ -32,7 +34,8 @@
 
     <!-- Messages and texts-->
     <string name="press_it">Press it !</string>
-    <string name="active">Activated</string>
+    <string name="active">Active</string>
+    <string name="contacts_limit">5 contacts is the limit</string>
 
 
 

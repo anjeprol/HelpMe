@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.pramont.helpme.R;
@@ -71,7 +72,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private LinearLayout getSpaceLayout(LinearLayout linearLayout) {
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
-                        mLayoutParams.MATCH_PARENT, 70));
+                        mLayoutParams.MATCH_PARENT, (int)getResources().getDimension(R.dimen.space_dimen)));
         linearLayout.setBackgroundColor(getResources().getColor(R.color.background, null));
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         return linearLayout;
@@ -97,7 +98,15 @@ public class Contacts extends Fragment implements View.OnClickListener {
         switch (view.getId())
         {
             case R.id.add_btn:
-                loadContactsFields();
+                if (mId < 5)
+                {
+                    loadContactsFields();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), R.string.contacts_limit,Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
@@ -107,25 +116,27 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * */
     private void loadContactsFields() {
 
-        // Params for text levels, margins and layOuts
-        mParamsFieldsTv = new LinearLayout.LayoutParams(180, mLayoutParams.WRAP_CONTENT);
-        mParamsFieldsTv.setMargins(50, 0, 50, 0);
+
 
         // Params for text levels, margins and layOuts
-        mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, 200);
+        mParamsFieldsTv = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.height), mLayoutParams.WRAP_CONTENT);
+        mParamsFieldsTv.setMargins((int)getResources().getDimension(R.dimen.margin_right), 0, (int)getResources().getDimension(R.dimen.margin_right), 0);
 
-       // mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
+        // Params for text levels, margins and layOuts
+        mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, (int) getResources().getDimension(R.dimen.width));
+
+        // mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
 
 
-       // mEmail_container.addView(mPhone_tv);
+        // mEmail_container.addView(mPhone_tv);
         addEmailField();
 
-
         addSpaces();
+
         mId++;
     }
 
-    private void addEmailField(){
+    private void addEmailField() {
         mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
         mEmail_container = getEmailContLayout(mEmail_container, mId);
@@ -166,13 +177,13 @@ public class Contacts extends Fragment implements View.OnClickListener {
     /*
     *  Method to set the edit text
     * */
-    private EditText getView(EditText editText, int idHintString,LinearLayout.LayoutParams params, int inputType, int id){
+    private EditText getView(EditText editText, int idHintString, LinearLayout.LayoutParams params, int inputType, int id) {
         editText = new EditText(getContext());
         editText.setLayoutParams(params);
         editText.setHint(idHintString);
         editText.setBackground(null);
         editText.setInputType(inputType);
         editText.setId(id);
-        return  editText;
+        return editText;
     }
 }
