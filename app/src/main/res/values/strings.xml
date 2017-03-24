@@ -14,6 +14,8 @@
     <string name="contacts">Contacts</string>
     <string name="email">Email:</string>
     <string name="phone">Phone:</string>
+    <string name="email_hint">example@email.com</string>
+    <string name="phone_hint">00-0000-0000</string>
 
 
     <!-- Maps template link-->
