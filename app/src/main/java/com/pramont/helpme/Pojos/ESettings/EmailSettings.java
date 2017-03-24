@@ -7,7 +7,7 @@ package com.pramont.helpme.Pojos.ESettings;
 public class EmailSettings {
     private String mailTo;
     private String mailFrom;
-    private String user;
+    private String fullName;
     private String passwd;
     private String subject;
     private String bodyMesg;
@@ -28,12 +28,12 @@ public class EmailSettings {
         this.mailFrom = mailFrom;
     }
 
-    public String getUser() {
-        return user;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPasswd() {

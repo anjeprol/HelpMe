@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity";
 
-    private Toolbar mToolbar;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    private Toolbar     mToolbar;
+    private TabLayout   mTabLayout;
+    private ViewPager   mViewPager;
 
 
     @Override
@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mToolbar    = (Toolbar) findViewById(R.id.toolbar);
+        mViewPager  = (ViewPager) findViewById(R.id.viewPager);
+        mTabLayout  = (TabLayout) findViewById(R.id.tabs);
 
         setSupportActionBar(mToolbar);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true); to add the arrow getting back to previous activity
