@@ -2,9 +2,8 @@ package com.pramont.helpme.Fragments;
 
 
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -22,13 +21,14 @@ import com.pramont.helpme.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-@RequiresApi(api = Build.VERSION_CODES.M)
+
 public class Contacts extends Fragment implements View.OnClickListener {
     private LinearLayout.LayoutParams mLayoutParams;
     LinearLayout.LayoutParams mParamsFieldsTv;
     LinearLayout.LayoutParams mParamsFieldsEt;
     LinearLayout mContainer_contacts_lly;
     LinearLayout mEmail_container;
+    LinearLayout mPhone_container;
     LinearLayout mSpace_lly;
     private TextView mEmail_tv;
     private TextView mPhone_tv;
@@ -73,21 +73,21 @@ public class Contacts extends Fragment implements View.OnClickListener {
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
                         mLayoutParams.MATCH_PARENT, (int)getResources().getDimension(R.dimen.space_dimen)));
-        linearLayout.setBackgroundColor(getResources().getColor(R.color.background, null));
+        linearLayout.setBackgroundResource(R.color.background);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         return linearLayout;
     }
 
     /*
-    * To set the email container layout
+    * To set the email and phone container layout
     * */
 
-    private LinearLayout getEmailContLayout(LinearLayout linearLayout, int count) {
+    private LinearLayout getContainerLayout(LinearLayout linearLayout, int count) {
         linearLayout.setId(count);
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
                         mLayoutParams.MATCH_PARENT, mLayoutParams.WRAP_CONTENT));
-        linearLayout.setBackgroundColor(getResources().getColor(R.color.white, null));
+        linearLayout.setBackgroundResource(R.color.white);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         return linearLayout;
     }
@@ -119,27 +119,49 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
 
         // Params for text levels, margins and layOuts
-        mParamsFieldsTv = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.height), mLayoutParams.WRAP_CONTENT);
+        mParamsFieldsTv = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.width), mLayoutParams.WRAP_CONTENT);
         mParamsFieldsTv.setMargins((int)getResources().getDimension(R.dimen.margin_right), 0, (int)getResources().getDimension(R.dimen.margin_right), 0);
 
         // Params for text levels, margins and layOuts
-        mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, (int) getResources().getDimension(R.dimen.width));
+        mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, (int) getResources().getDimension(R.dimen.height));
 
-        // mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
+
 
 
         // mEmail_container.addView(mPhone_tv);
         addEmailField();
+        addPhoneField();
 
         addSpaces();
 
         mId++;
     }
 
+    /*
+    * Method to add the LinearLayout for phone
+    * */
+    private void addPhoneField(){
+        mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
+        mPhone_container = new LinearLayout(getContext());
+        mPhone_container = getContainerLayout(mPhone_container,mId);
+        mPhone_container.addView(mPhone_tv);
+
+        mPhone_et = getView(mPhone_et,
+                R.string.phone_hint,
+                mParamsFieldsEt,
+                InputType.TYPE_CLASS_PHONE,mId);
+
+        mPhone_container.addView(mPhone_et);
+        mContainer_contacts_lly.addView(mPhone_container);
+    }
+
+    /*
+    * Method to add the LinearLayout for emails
+    * */
     private void addEmailField() {
         mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
-        mEmail_container = getEmailContLayout(mEmail_container, mId);
+        mEmail_container = getContainerLayout(mEmail_container, mId);
 
         mEmail_container.addView(mEmail_tv);
 
