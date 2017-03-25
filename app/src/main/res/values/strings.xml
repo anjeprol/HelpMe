@@ -36,7 +36,7 @@
     <string name="press_it">Press it !</string>
     <string name="active">Active</string>
     <string name="contacts_limit">5 contacts is the limit</string>
-
+    <string name="no_contacts_msg">There are no contacts</string>
 
 
 </resources>

@@ -36,7 +36,12 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private EditText mPhone_et;
     private Button mAddBtn;
     private Button mRmvBtn;
-    private int mId = 0;
+    private int mCoutViews = 0;
+    private static final int ID_LL_EMAIL = 100;
+    private static final int ID_LL_PHONE = 200;
+    private static final int ID_ET_EMAIL = 300;
+    private static final int ID_ET_PHONE = 400;
+    private static final int ID_LL_SP = 500;
 
 
     @Override
@@ -52,16 +57,13 @@ public class Contacts extends Fragment implements View.OnClickListener {
         LinearLayout hidden_buttons_lly = (LinearLayout) rootView.findViewById(R.id.hiddenButtons);
         View buttonsViews = getLayoutInflater(savedInstanceState).inflate(R.layout.hidden_buttons, mContainer_contacts_lly, false);
         mAddBtn = (Button) buttonsViews.findViewById(R.id.add_btn);
+        mRmvBtn = (Button) buttonsViews.findViewById(R.id.rmv_btn);
+
+        mRmvBtn.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
 
-        // To set the spaces
-        addSpaces();
-
-
-        // mContainer_contacts_lly.addView(mSpace_lly);
         mContainer_contacts_lly.addView(buttonsViews);
 
-        addSpaces();
         return rootView;
     }
 
@@ -69,12 +71,13 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * Method to set the setting for space
     * */
 
-    private LinearLayout getSpaceLayout(LinearLayout linearLayout) {
+    private LinearLayout getSpaceLayout(LinearLayout linearLayout, int id) {
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
-                        mLayoutParams.MATCH_PARENT, (int)getResources().getDimension(R.dimen.space_dimen)));
+                        mLayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.space_dimen)));
         linearLayout.setBackgroundResource(R.color.background);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setId(id);
         return linearLayout;
     }
 
@@ -82,8 +85,8 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * To set the email and phone container layout
     * */
 
-    private LinearLayout getContainerLayout(LinearLayout linearLayout, int count) {
-        linearLayout.setId(count);
+    private LinearLayout getContainerLayout(LinearLayout linearLayout, int id) {
+        linearLayout.setId(id);
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
                         mLayoutParams.MATCH_PARENT, mLayoutParams.WRAP_CONTENT));
@@ -98,17 +101,47 @@ public class Contacts extends Fragment implements View.OnClickListener {
         switch (view.getId())
         {
             case R.id.add_btn:
-                if (mId < 5)
+                if (mCoutViews < 5)
                 {
                     loadContactsFields();
                 }
                 else
                 {
-                    Toast.makeText(getContext(), R.string.contacts_limit,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.contacts_limit, Toast.LENGTH_SHORT).show();
                 }
-
+                break;
+            case R.id.rmv_btn:
+                if (mCoutViews > 0)
+                {
+                    removeContactsFields();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), R.string.no_contacts_msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
+    }
+
+    /*
+    * Method to delete the Linear Layouts from email and phone
+    * */
+    private void removeContactsFields() {
+        int id_ll_email = ID_LL_EMAIL + mCoutViews - 1;
+        int id_ll_phone = ID_LL_PHONE + mCoutViews - 1;
+        int id_ll_space = ID_LL_SP + mCoutViews - 1;
+
+        deleteView(id_ll_email);
+        deleteView(id_ll_phone);
+        deleteView(id_ll_space);
+
+        mCoutViews--;
+    }
+
+    private void deleteView(int id){
+        View viewToDelete = mContainer_contacts_lly.findViewById(id);
+        ViewGroup parent  = (ViewGroup) viewToDelete.getParent();
+        parent.removeView(viewToDelete);
     }
 
     /*
@@ -117,39 +150,35 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void loadContactsFields() {
 
 
-
         // Params for text levels, margins and layOuts
         mParamsFieldsTv = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.width), mLayoutParams.WRAP_CONTENT);
-        mParamsFieldsTv.setMargins((int)getResources().getDimension(R.dimen.margin_right), 0, (int)getResources().getDimension(R.dimen.margin_right), 0);
+        mParamsFieldsTv.setMargins((int) getResources().getDimension(R.dimen.margin_right), 0, (int) getResources().getDimension(R.dimen.margin_right), 0);
 
         // Params for text levels, margins and layOuts
         mParamsFieldsEt = new LinearLayout.LayoutParams(mLayoutParams.WRAP_CONTENT, (int) getResources().getDimension(R.dimen.height));
 
-
-
-
-        // mEmail_container.addView(mPhone_tv);
         addEmailField();
         addPhoneField();
 
         addSpaces();
 
-        mId++;
+        mCoutViews++;
     }
 
     /*
     * Method to add the LinearLayout for phone
     * */
-    private void addPhoneField(){
+    private void addPhoneField() {
         mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
         mPhone_container = new LinearLayout(getContext());
-        mPhone_container = getContainerLayout(mPhone_container,mId);
+        mPhone_container = getContainerLayout(mPhone_container, ID_LL_PHONE + mCoutViews);
         mPhone_container.addView(mPhone_tv);
 
         mPhone_et = getView(mPhone_et,
                 R.string.phone_hint,
                 mParamsFieldsEt,
-                InputType.TYPE_CLASS_PHONE,mId);
+                InputType.TYPE_CLASS_PHONE,
+                ID_ET_PHONE + mCoutViews);
 
         mPhone_container.addView(mPhone_et);
         mContainer_contacts_lly.addView(mPhone_container);
@@ -161,14 +190,14 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addEmailField() {
         mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
-        mEmail_container = getContainerLayout(mEmail_container, mId);
+        mEmail_container = getContainerLayout(mEmail_container, ID_LL_EMAIL + mCoutViews);
 
         mEmail_container.addView(mEmail_tv);
 
         mEmail_et = getView(mEmail_et,
                 R.string.email_hint, mParamsFieldsEt,
                 InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-                mId);
+                ID_ET_EMAIL + mCoutViews);
 
         mEmail_container.addView(mEmail_et);
         mContainer_contacts_lly.addView(mEmail_container);
@@ -181,7 +210,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addSpaces() {
         // To set the spaces
         mSpace_lly = new LinearLayout(getContext());
-        mSpace_lly = getSpaceLayout(mSpace_lly);
+        mSpace_lly = getSpaceLayout(mSpace_lly, ID_LL_SP+mCoutViews);
         mContainer_contacts_lly.addView(mSpace_lly);
     }
 
