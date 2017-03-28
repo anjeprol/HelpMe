@@ -87,8 +87,6 @@
 
             <include layout="@layout/gmail_login"/>
 
-            <include layout="@layout/div"/>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,6 +102,8 @@
                     android:textSize="@dimen/text_lb_size"
                     android:textStyle="bold"/>
             </RelativeLayout>
+
+            <include layout="@layout/div"/>
 
             <include layout="@layout/div"/>
 

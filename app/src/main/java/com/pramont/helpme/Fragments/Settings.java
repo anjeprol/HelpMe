@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.pramont.helpme.R;
@@ -19,6 +20,7 @@ import com.pramont.helpme.R;
  */
 public class Settings extends Fragment implements CompoundButton.OnCheckedChangeListener {
     private Switch mSwitchGmail;
+    private LinearLayout mGmail_section_ll ;
 
 
     @Override
@@ -28,6 +30,8 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
         mSwitchGmail = (Switch) rootView.findViewById(R.id.sw_email);
+        mGmail_section_ll = (LinearLayout) rootView.findViewById(R.id.gmail_login_ll) ;
+        mGmail_section_ll.setVisibility(View.GONE);
         mSwitchGmail.setOnCheckedChangeListener(this);
 
         return rootView;
@@ -45,11 +49,13 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
                         @Override public void onClick(DialogInterface dialogInterface, int i) {
                             //No actions for now
                             mSwitchGmail.setChecked(false);
+
                         }
                     })
                     .setPositiveButton(context.getString(R.string.alert_opt_yes), new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialogInterface, int i) {
                         //TODO enable to show the section for gmail account
+                            mGmail_section_ll.setVisibility(View.VISIBLE);
                         }
                     })
                     .show();
@@ -57,7 +63,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         }
         else
         {
-
+            mGmail_section_ll.setVisibility(View.GONE);
         }
     }
 }
