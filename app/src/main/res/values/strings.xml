@@ -46,6 +46,10 @@
     <string name="tv_lb_gmail_user">Gmail account:</string>
     <string name="tv_lb_password">Password:</string>
     <string name="hint_password">password</string>
+    <string name="alert_opt_not">No</string>
+    <string name="alert_opt_yes">Yes</string>
+    <string name="msg_email_notification">Email Notifications</string>
+    <string name="alert_message_gmail_notification"> This will enable notifications through your gmail account only. \n\n Would you like to continue ?</string>
 
 
 </resources>

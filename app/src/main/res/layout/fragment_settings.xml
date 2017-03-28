@@ -17,7 +17,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/back_div">
+                android:background="@color/back_section">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,7 +92,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/back_div"
+                android:background="@color/back_section"
                 android:paddingBottom="@dimen/margin_top_down"
                 android:paddingLeft="@dimen/margin_right"
                 android:paddingTop="@dimen/margin_top_down">

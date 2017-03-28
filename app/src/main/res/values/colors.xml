@@ -6,6 +6,6 @@
 
     <color name="white">#ffffff</color>
     <color name="background">#e5e8ea</color>
-    <color name="back_div">#d3d9dc</color>
-    <color name="div">#c5c9c9</color>
+    <color name="back_section">#FFD3D9DC</color>
+    <color name="div">#dee6e6</color>
 </resources>
