@@ -37,6 +37,15 @@
     <string name="active">Active</string>
     <string name="contacts_limit">5 contacts is the limit</string>
     <string name="no_contacts_msg">There are no contacts</string>
+    <string name="section_notification">Notifications</string>
+    <string name="email_subject">Help me application</string>
+    <string name="section_shake">Shake</string>
+    <string name="tv_lb_message">Message:</string>
+    <string name="tv_lb_email">Email </string>
+    <string name="tv_lb_sensibility">Sensibility</string>
+    <string name="tv_lb_gmail_user">Gmail account:</string>
+    <string name="tv_lb_password">Password:</string>
+    <string name="hint_password">password</string>
 
 
 </resources>

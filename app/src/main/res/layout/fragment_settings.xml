@@ -2,6 +2,148 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:background="@color/background"
              tools:context="com.pramont.helpme.Fragments.Settings">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/back_div">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_top_down"
+                    android:layout_marginLeft="@dimen/margin_right"
+                    android:layout_marginTop="@dimen/margin_top_down"
+                    android:text="@string/section_notification"
+                    android:textSize="@dimen/text_lb_size"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_fields"
+                android:paddingLeft="@dimen/margin_right"
+                android:paddingTop="@dimen/margin_fields">
+
+                <TextView
+                    android:layout_width="@dimen/width_fields"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_lb_message"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/et_body_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="@dimen/margin_right"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="Body message for your contacts"
+                    android:inputType="textMultiLine"
+                    android:textSize="@dimen/text_size"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/div"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_fields"
+                android:paddingLeft="@dimen/margin_right"
+                android:paddingTop="@dimen/margin_fields">
+
+                <TextView
+                    android:layout_width="@dimen/width_fields"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_lb_email"
+                    android:textStyle="bold"/>
+
+                <Switch
+                    android:id="@+id/sw_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_right"
+                    android:layout_marginRight="@dimen/margin_right"/>
+            </LinearLayout>
+
+            <include layout="@layout/div"/>
+
+            <include layout="@layout/gmail_login"/>
+
+            <include layout="@layout/div"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/back_div"
+                android:paddingBottom="@dimen/margin_top_down"
+                android:paddingLeft="@dimen/margin_right"
+                android:paddingTop="@dimen/margin_top_down">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/section_shake"
+                    android:textSize="@dimen/text_lb_size"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+
+            <include layout="@layout/div"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_fields"
+                android:paddingLeft="@dimen/margin_right"
+                android:paddingTop="@dimen/margin_fields">
+
+                <TextView
+                    android:layout_width="@dimen/width_fields"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_right"
+                    android:text="@string/tv_lb_sensibility"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/level_sensibility_percent"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+                    android:text="100%"/>
+
+                <SeekBar
+                    android:id="@+id/level_sensibility"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_right"/>
+
+
+
+            </LinearLayout>
+
+            <include layout="@layout/div"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

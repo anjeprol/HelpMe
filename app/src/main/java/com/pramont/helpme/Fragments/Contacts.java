@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,9 @@ import android.widget.Toast;
 
 
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
+
+import static android.R.attr.filter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -179,6 +183,10 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 mParamsFieldsEt,
                 InputType.TYPE_CLASS_PHONE,
                 ID_ET_PHONE + mCoutViews);
+        //To set the maxLength from edit text, in this case for 10 numbers
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(Constants.MAX_LENG);
+        mPhone_et.setFilters(FilterArray);
 
         mPhone_container.addView(mPhone_et);
         mContainer_contacts_lly.addView(mPhone_container);

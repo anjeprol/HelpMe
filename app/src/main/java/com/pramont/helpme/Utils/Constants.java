@@ -6,4 +6,5 @@ package com.pramont.helpme.Utils;
 
 public class Constants {
     public final static String TAG_EMAIL = "Email Sender";
+    public final static int MAX_LENG = 10 ;
 }
