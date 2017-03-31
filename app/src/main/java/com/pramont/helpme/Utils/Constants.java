@@ -7,7 +7,8 @@ package com.pramont.helpme.Utils;
 public class Constants {
     public static final String TAG_EMAIL = "Email Sender";
     public static final int MAX_LENG = 10 ;
-    // SharedPreferences
+    // UserPreferences
+    public static final String DEFAULT_VALUE = "";
     public static final String PREFERENCES = "HelpPreferences";
     public static final String MAILS = "Mails";
     public static final String PHONES = "Phones";

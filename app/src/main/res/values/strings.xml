@@ -3,6 +3,9 @@
     <!--Version Mode Trial or Cost -->
     <bool name="mode_trial">false</bool>
 
+    <!--To set the max limit of contacts -->
+    <integer name="max_contacts">3</integer>
+
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>
     <string name="subject_email_app">Panic Button Message</string>>
@@ -35,7 +38,7 @@
     <!-- Messages and texts-->
     <string name="press_it">Press it !</string>
     <string name="active">Active</string>
-    <string name="contacts_limit">5 contacts is the limit</string>
+    <string name="contacts_limit">contacts is the limit</string>
     <string name="no_contacts_msg">There are no contacts</string>
     <string name="section_notification">Notifications</string>
     <string name="email_subject">Help me application</string>

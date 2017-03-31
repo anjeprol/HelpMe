@@ -83,11 +83,7 @@
                     android:layout_marginRight="@dimen/margin_right"/>
             </LinearLayout>
 
-            <include layout="@layout/div"/>
-
             <include layout="@layout/gmail_login"/>
-
-            <include layout="@layout/div"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -135,8 +131,8 @@
                     android:id="@+id/level_sensibility"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:progress="50"
-                    android:layout_marginLeft="@dimen/margin_right"/>
+                    android:layout_marginLeft="@dimen/margin_right"
+                    android:progress="50"/>
             </LinearLayout>
 
             <include layout="@layout/div"/>
