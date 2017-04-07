@@ -4,7 +4,7 @@
     <bool name="mode_trial">false</bool>
 
     <!--To set the max limit of contacts -->
-    <integer name="max_contacts">3</integer>
+    <integer name="max_contacts">5</integer>
 
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>
