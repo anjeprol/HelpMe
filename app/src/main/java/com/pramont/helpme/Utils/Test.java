@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Test {
     public static void main(String [] args) {
         Utils utils = new Utils();
-        String testString = "1,2,3,4";
+        String testString = "antoniopradoo@gmail.com,anjeprol_prado@hotmail.com,anjeprolprado@gmail.com,prolananjeprol@gmail.com,otrocorreo@hotmail.com";
 
-        ArrayList<Integer> stringArrayList = utils.getPhones(testString);
+        ArrayList<String> stringArrayList = utils.getEmails(testString);
     }
 }

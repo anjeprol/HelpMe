@@ -9,6 +9,7 @@ public class Constants {
     public static final int MAX_LENG = 10 ;
     // UserPreferences
     public static final String DEFAULT_VALUE = "";
+    public static final String SEPARATOR = ",";
     public static final String PREFERENCES = "HelpPreferences";
     public static final String MAILS = "Mails";
     public static final String PHONES = "Phones";

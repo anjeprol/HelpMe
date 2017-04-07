@@ -15,14 +15,14 @@ public class Preferences {
     private String bodyMessage;
     private boolean isEmailChecked;
     private int sensibility;
-    private HashMap<Integer, Contacts> contactsHashMap;
+    private Contacts contacts;
 
-    public HashMap<Integer, Contacts> getContactsHashMap() {
-        return contactsHashMap;
+    public Contacts getContacts() {
+        return contacts;
     }
 
-    public void setContactsHashMap(HashMap<Integer, Contacts> contactsHashMap) {
-        this.contactsHashMap = contactsHashMap;
+    public void setContacts(Contacts contacts) {
+        this.contacts = contacts;
     }
 
     public int getSensibility() {
