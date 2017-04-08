@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,12 +35,12 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        mSwitchGmail = (Switch) rootView.findViewById(R.id.sw_email);
-        mGmail_section_ll = (LinearLayout) rootView.findViewById(R.id.gmail_login_ll);
-        mSensibility_SB = (SeekBar) rootView.findViewById(R.id.level_sensibility_sb);
-        mProgress_tv = (TextView) rootView.findViewById(R.id.level_sensibility_percent);
+        mSwitchGmail        = (Switch) rootView.findViewById(R.id.sw_email);
+        mGmail_section_ll   = (LinearLayout) rootView.findViewById(R.id.gmail_login_ll);
+        mSensibility_SB     = (SeekBar) rootView.findViewById(R.id.level_sensibility_sb);
+        mProgress_tv        = (TextView) rootView.findViewById(R.id.level_sensibility_percent);
 
-        mProgress_tv.setText(mProgress_tv.getText().toString() + " " + getString(R.string.symb_percentage));
+        mProgress_tv.setText(mProgress_tv.getText().toString() + Constants.DEFAULT_VALUE + getString(R.string.symb_percentage));
 
         mGmail_section_ll.setVisibility(View.GONE);
         mSwitchGmail.setOnCheckedChangeListener(this);
@@ -90,7 +91,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
 
         minReqStringBuilder
                 .append(min)
-                .append(" ")
+                .append(Constants.DEFAULT_VALUE)
                 .append(symbol);
 
         if (progress < min)
@@ -101,7 +102,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         }
         progressStringBuilder
                 .append(progress)
-                .append(" ")
+                .append(Constants.DEFAULT_VALUE)
                 .append(symbol);
 
         mProgress_tv.setText(progressStringBuilder.toString());
