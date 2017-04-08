@@ -83,9 +83,10 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Integer min = getResources().getInteger(R.integer.min_required_sensibility_int);
+        String symbol = getString(R.string.symb_percentage);
         StringBuilder minReqStringBuilder = new StringBuilder();
         StringBuilder progressStringBuilder = new StringBuilder();
-        String symbol = getString(R.string.symb_percentage);
+
 
         minReqStringBuilder
                 .append(min)
