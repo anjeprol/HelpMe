@@ -18,6 +18,7 @@ public class Constants {
     public static final String USER_EMAIL = "userEmail";
     public static final String BODY_MESSAGE = "bodyMessage";
     public static final String CHECKED_EMAIL = "checkedEmail";
-
-
+    //Status
+    public static final String STATUS = "Status";
+    public static final String NOTIFICATIONS_STATUS = "notificationsStatus";
 }

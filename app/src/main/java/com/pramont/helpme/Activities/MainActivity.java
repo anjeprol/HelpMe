@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupTabIcons() {
         int[] tabIcons = {
                 R.drawable.ic_button_24dp,
-                R.drawable.ic_people_24dp,
-                R.drawable.ic_settings_24dp
+                R.drawable.ic_settings_24dp,
+                R.drawable.ic_people_24dp
         };
 
         for (int ind = 0; ind < 3; ind++)
@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new Buttons(), getString(R.string.title_1));
-        adapter.addFrag(new Contacts(), getString(R.string.title_2));
         adapter.addFrag(new Settings(), getString(R.string.title_3));
+        adapter.addFrag(new Contacts(), getString(R.string.title_2));
         viewPager.setAdapter(adapter);
     }
 

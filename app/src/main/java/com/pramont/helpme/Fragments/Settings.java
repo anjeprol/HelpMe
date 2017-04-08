@@ -11,16 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.pramont.helpme.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Settings extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public class Settings extends Fragment implements CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
     private Switch mSwitchGmail;
     private LinearLayout mGmail_section_ll ;
+    private SeekBar mSensibility_SB;
+    private TextView mProgress_tv;
 
 
     @Override
@@ -31,8 +35,15 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
 
         mSwitchGmail = (Switch) rootView.findViewById(R.id.sw_email);
         mGmail_section_ll = (LinearLayout) rootView.findViewById(R.id.gmail_login_ll) ;
+        mSensibility_SB = (SeekBar) rootView.findViewById(R.id.level_sensibility_sb);
+        mProgress_tv = (TextView) rootView.findViewById(R.id.level_sensibility_percent);
+
+        mProgress_tv.setText(mProgress_tv.getText().toString()
+                +" "+getString(R.string.symb_percentage));
+
         mGmail_section_ll.setVisibility(View.GONE);
         mSwitchGmail.setOnCheckedChangeListener(this);
+        mSensibility_SB.setOnSeekBarChangeListener(this);
 
         return rootView;
     }
@@ -65,5 +76,20 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         {
             mGmail_section_ll.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        mProgress_tv.setText(progress+" "+getString(R.string.symb_percentage));
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

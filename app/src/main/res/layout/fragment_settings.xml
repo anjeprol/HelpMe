@@ -123,12 +123,11 @@
                     android:id="@+id/level_sensibility_percent"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-
                     android:gravity="center"
-                    android:text="50%"/>
+                    android:text="@string/default_sensibility"/>
 
                 <SeekBar
-                    android:id="@+id/level_sensibility"
+                    android:id="@+id/level_sensibility_sb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_right"

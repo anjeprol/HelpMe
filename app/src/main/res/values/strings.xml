@@ -5,6 +5,8 @@
 
     <!--To set the max limit of contacts -->
     <integer name="max_contacts">5</integer>
+    <string name="default_sensibility">50</string>
+    <string name="symb_percentage">%</string>
 
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>

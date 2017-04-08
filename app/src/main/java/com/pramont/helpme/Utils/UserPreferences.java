@@ -86,38 +86,40 @@ public class UserPreferences extends Constants {
     * Method to set all the preferences on one hit
     * */
     public void setPreferences(Preferences userSettings) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
 
-        setPreference(
+        editor.putString(
                 BODY_MESSAGE,
                 userSettings.getBodyMessage());
-        setPreference(
+        editor.putBoolean(
                 CHECKED_EMAIL,
                 userSettings.isEmailChecked());
-        setPreference(
+        editor.putString(
                 SENSIBILITY,
                 String.valueOf(
                         userSettings.getSensibility()));
-        setPreference(
+        editor.putString(
                 PASSWORD,
                 userSettings.getPassword());
-        setPreference(
+        editor.putString(
                 USER_EMAIL,
                 userSettings.getMailFrom());
         if (userSettings.isEmailChecked())
         {
-            setPreference(
+            editor.putString(
                     MAILS,
                     concat(
                             userSettings.getContacts(),
                             userSettings.isEmailChecked(),
                             false).toString());
         }
-        setPreference(
+        editor.putString(
                 PHONES,
                 concat(
                         userSettings.getContacts(),
                         userSettings.isEmailChecked(),
                         true).toString());
+        editor.commit();
     }
 
     /*
@@ -156,23 +158,5 @@ public class UserPreferences extends Constants {
             }
         }
         return stringBuilder;
-    }
-
-    /*
-    * Method to set the string preferences
-    * */
-    private void setPreference(String key, String data) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(key, data);
-        editor.commit();
-    }
-
-    /*
-    * Method to set the boolean preferences
-    * */
-    public void setPreference(String key, boolean status) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putBoolean(key, status);
-        editor.commit();
     }
 }
