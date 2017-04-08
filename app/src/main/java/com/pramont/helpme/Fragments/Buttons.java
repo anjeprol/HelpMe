@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.pramont.helpme.Emails.Gmail;
 import com.pramont.helpme.R;
-import com.pramont.helpme.Utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +38,8 @@ public class Buttons extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_buttons, container, false);
 
 
-        mImgButton  = (ImageButton) rootView.findViewById(R.id.imgBtn);
-        mMessage_tv = (TextView) rootView.findViewById(R.id.tv_message);
+        mImgButton  = (ImageButton) rootView.findViewById(R.id.service_img_Btn);
+        mMessage_tv = (TextView) rootView.findViewById(R.id.service_message_tv);
 
         mImgButton.setOnClickListener(this);
 
@@ -52,7 +50,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.imgBtn:
+            case R.id.service_img_Btn:
                 if (isFirst)
                 {
                     progressDialog = ProgressDialog.show(getActivity(),
@@ -69,7 +67,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
                             progressDialog.dismiss();
 
                         }
-                    }, 5000);   //5 seconds
+                    }, 1000);   //5 seconds
                     /*
                     try {
                         //To send the email after checking permissions
@@ -81,7 +79,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
 
                 }else {
                     mImgButton.setImageResource(R.drawable.ic_red_button);
-                    mMessage_tv.setText(getString(R.string.press_it));
+                    mMessage_tv.setText(getString(R.string.disabled));
                     isFirst=true;
                 }
                 break;

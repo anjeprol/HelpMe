@@ -39,7 +39,7 @@
     <string name="error">ERROR:</string>
 
     <!-- Messages and texts-->
-    <string name="press_it">Press it !</string>
+    <string name="disabled">Disabled</string>
     <string name="active">Active</string>
     <string name="contacts_limit">contacts is the limit</string>
     <string name="no_contacts_msg">There are no contacts</string>
@@ -58,7 +58,7 @@
     <string name="alert_message_gmail_notification">
         This will enable notifications through your gmail account only. \n\n Would you like to continue ?
     </string>
-
+    <string name="service_notification_section_tv">Service</string>
 
 
 </resources>
