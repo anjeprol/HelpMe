@@ -12,9 +12,10 @@
     <dimen name="text_lb_size">18dp</dimen>
     <dimen name="text_size">16dp</dimen>
     <dimen name="text_field_size">40dp</dimen>
-    <dimen name="margin_fields">10dp</dimen>
+    <dimen name="margin_fields">20dp</dimen>
     <dimen name="margin_top_down">15dp</dimen>
     <dimen name="width_fields">105dp</dimen>
+    <dimen name="height_seekbar_section">60dp</dimen>
 
 
 </resources>

@@ -20,8 +20,6 @@ import android.widget.Toast;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
 
-import static android.R.attr.filter;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -101,17 +99,22 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Integer contacts_limit = getResources().getInteger(R.integer.max_contacts);
+        StringBuilder stringBuilderMsg = new StringBuilder();
+        stringBuilderMsg.append(contacts_limit);
+        stringBuilderMsg.append(" ");
+        stringBuilderMsg.append(getResources().getString(R.string.contacts_limit));
 
         switch (view.getId())
         {
             case R.id.add_btn:
-                if (mCoutViews < 5)
+                if (mCoutViews < contacts_limit)
                 {
                     loadContactsFields();
                 }
                 else
                 {
-                    Toast.makeText(getContext(), R.string.contacts_limit, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), stringBuilderMsg.toString(), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.rmv_btn:

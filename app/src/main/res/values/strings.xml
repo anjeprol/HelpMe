@@ -3,6 +3,12 @@
     <!--Version Mode Trial or Cost -->
     <bool name="mode_trial">false</bool>
 
+    <!--To set the max limit of contacts -->
+    <integer name="max_contacts">5</integer>
+    <string name="default_sensibility">50</string>
+    <integer name="min_required_sensibility_int">20</integer>
+    <string name="symb_percentage">%</string>
+
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>
     <string name="subject_email_app">Panic Button Message</string>>
@@ -35,7 +41,7 @@
     <!-- Messages and texts-->
     <string name="press_it">Press it !</string>
     <string name="active">Active</string>
-    <string name="contacts_limit">5 contacts is the limit</string>
+    <string name="contacts_limit">contacts is the limit</string>
     <string name="no_contacts_msg">There are no contacts</string>
     <string name="section_notification">Notifications</string>
     <string name="email_subject">Help me application</string>
@@ -49,7 +55,10 @@
     <string name="alert_opt_not">No</string>
     <string name="alert_opt_yes">Yes</string>
     <string name="msg_email_notification">Email Notifications</string>
-    <string name="alert_message_gmail_notification"> This will enable notifications through your gmail account only. \n\n Would you like to continue ?</string>
+    <string name="alert_message_gmail_notification">
+        This will enable notifications through your gmail account only. \n\n Would you like to continue ?
+    </string>
+
 
 
 </resources>
