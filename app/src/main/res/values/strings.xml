@@ -6,6 +6,7 @@
     <!--To set the max limit of contacts -->
     <integer name="max_contacts">5</integer>
     <string name="default_sensibility">50</string>
+    <integer name="min_required_sensibility_int">20</integer>
     <string name="symb_percentage">%</string>
 
     <!-- TRANSLATE -->
@@ -57,6 +58,7 @@
     <string name="alert_message_gmail_notification">
         This will enable notifications through your gmail account only. \n\n Would you like to continue ?
     </string>
+
 
 
 </resources>
