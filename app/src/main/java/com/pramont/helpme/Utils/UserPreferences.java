@@ -26,6 +26,7 @@ public class UserPreferences extends Constants {
     public Preferences getPreferences() {
         String emails;
         String phones;
+        String sens;
 
         userPreferences.setBodyMessage(
                 mSharedPreferences.getString(
@@ -37,11 +38,13 @@ public class UserPreferences extends Constants {
                         CHECKED_EMAIL,
                         false));
 
-        userPreferences.setSensibility(
-                Integer.valueOf(
-                        mSharedPreferences.getString(
-                                SENSIBILITY,
-                                DEFAULT_VALUE)));
+        sens = mSharedPreferences.getString(SENSIBILITY, DEFAULT_VALUE);
+        if (!sens.trim().isEmpty())
+        {
+            userPreferences.setSensibility(
+                    Integer.valueOf(sens));
+        }
+
 
         userPreferences.setPassword(
                 mSharedPreferences.getString(
@@ -128,7 +131,11 @@ public class UserPreferences extends Constants {
     private StringBuilder concat(Contacts contacts, boolean isEmailChecked, boolean isPhone) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        int size = contacts.getPhoneNumbers().size();
+        int size = 0;
+        if (contacts != null)
+        {
+            contacts.getPhoneNumbers().size();
+        }
 
         for (int index = 0; index < size; index++)
         {

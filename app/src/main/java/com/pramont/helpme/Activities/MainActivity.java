@@ -1,5 +1,6 @@
 package com.pramont.helpme.Activities;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,13 +8,19 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
+
 import com.pramont.helpme.Fragments.Buttons;
 import com.pramont.helpme.Fragments.Contacts;
 import com.pramont.helpme.Fragments.Settings;
+import com.pramont.helpme.Pojos.NotificationSettings.Preferences;
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
+import com.pramont.helpme.Utils.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout   mTabLayout;
     private ViewPager   mViewPager;
+    private Preferences mProfile;
+    private Bundle      mDataBundle;
 
 
     @Override
@@ -32,10 +41,29 @@ public class MainActivity extends AppCompatActivity {
         mViewPager  = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout  = (TabLayout) findViewById(R.id.tabs);
 
+        loadData();
+
         mTabLayout.setupWithViewPager(mViewPager);
+
+
 
         setupViewPager(mViewPager);
         setupTabIcons();
+    }
+
+    private void loadData(){
+        mDataBundle = new Bundle();
+        UserPreferences userPreferences = new UserPreferences(
+                getSharedPreferences(
+                        Constants.PREFERENCES,
+                        Context.MODE_PRIVATE));
+
+        mProfile = userPreferences.getPreferences();
+        mDataBundle.putString(Constants.USER_EMAIL,mProfile.getMailFrom());
+        mDataBundle.putString(Constants.BODY_MESSAGE,mProfile.getBodyMessage());
+        mDataBundle.putString(Constants.PASSWORD,mProfile.getPassword());
+        mDataBundle.putBoolean(Constants.CHECKED_EMAIL,mProfile.isEmailChecked());
+        mDataBundle.putInt(Constants.SENSIBILITY,mProfile.getSensibility());
     }
 
     /*
@@ -59,10 +87,18 @@ public class MainActivity extends AppCompatActivity {
     * */
 
     private void setupViewPager(ViewPager viewPager) {
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new Buttons(), getString(R.string.title_1));
-        adapter.addFrag(new Settings(), getString(R.string.title_3));
-        adapter.addFrag(new Contacts(), getString(R.string.title_2));
+        Settings settingsFragment = new Settings();
+        Buttons buttonsFragment = new Buttons();
+        Contacts contactsFragment = new Contacts();
+
+        buttonsFragment.setArguments(mDataBundle);
+        settingsFragment.setArguments(mDataBundle);
+        contactsFragment.setArguments(mDataBundle);
+        adapter.addFrag(buttonsFragment, getString(R.string.title_1));
+        adapter.addFrag(settingsFragment, getString(R.string.title_3));
+        adapter.addFrag(contactsFragment, getString(R.string.title_2));
         viewPager.setAdapter(adapter);
     }
 
