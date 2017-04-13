@@ -114,14 +114,16 @@ public class UserPreferences extends Constants {
                     concat(
                             userSettings.getContacts(),
                             userSettings.isEmailChecked(),
-                            false).toString());
+                            false)
+                            .toString());
         }
         editor.putString(
                 PHONES,
                 concat(
                         userSettings.getContacts(),
                         userSettings.isEmailChecked(),
-                        true).toString());
+                        true)
+                        .toString());
         editor.commit();
     }
 

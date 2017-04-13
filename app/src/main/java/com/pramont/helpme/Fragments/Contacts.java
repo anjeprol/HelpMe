@@ -1,10 +1,15 @@
 package com.pramont.helpme.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -38,12 +43,20 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private EditText mPhone_et;
     private Button mAddBtn;
     private Button mRmvBtn;
-    private int mCoutViews = 0;
+    private int mCountViews = 0;
     private static final int ID_LL_EMAIL = 100;
     private static final int ID_LL_PHONE = 200;
     private static final int ID_ET_EMAIL = 300;
     private static final int ID_ET_PHONE = 400;
     private static final int ID_LL_SP = 500;
+    private boolean mIsEmail = false;
+    private BroadcastReceiver mEmailReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mIsEmail = intent.getBooleanExtra(Constants.CHECKED_EMAIL, false);
+            changeVisibility();
+        }
+    };
 
 
     @Override
@@ -66,7 +79,73 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         mContainer_contacts_lly.addView(buttonsViews);
 
+        loadData();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mEmailReceiver, new IntentFilter(Constants.BROADCAST));
+
         return rootView;
+    }
+
+    private void changeVisibility() {
+        View rootView = getView();
+        LinearLayout emailContainer_ll;
+        if (mIsEmail)
+        {
+            for (int index = 0; index < mCountViews; index++)
+            {
+                emailContainer_ll = (LinearLayout) rootView.findViewById(ID_LL_EMAIL + index);
+                emailContainer_ll.setVisibility(View.VISIBLE);
+            }
+        }
+        else
+        {
+            for (int index = 0; index < mCountViews; index++)
+            {
+                emailContainer_ll = (LinearLayout) rootView.findViewById(ID_LL_EMAIL + index);
+                emailContainer_ll.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void loadData() {
+        Bundle bundle;
+        if (getArguments() != null)
+        {
+            bundle = getArguments();
+            mIsEmail = bundle.getBoolean(Constants.CHECKED_EMAIL);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mEmailReceiver);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        View rootView = getView();
+        EditText phones;
+        EditText emails;
+        StringBuilder phonesStringB = new StringBuilder();
+        StringBuilder emailsStringB = new StringBuilder();
+        for (int index = 0; index < mCountViews; index++)
+        {
+            phones = (EditText) rootView.findViewById(ID_ET_PHONE + index);
+            if (index + 1 < mCountViews)
+            {
+                phonesStringB
+                        .append(
+                                phones.getText().toString())
+                        .append(Constants.SEPARATOR);
+            }
+            else
+            {
+                phonesStringB.append(phones.getText().toString());
+            }
+        }
+        phonesStringB.toString();
+
     }
 
     /*
@@ -101,14 +180,15 @@ public class Contacts extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Integer contacts_limit = getResources().getInteger(R.integer.max_contacts);
         StringBuilder stringBuilderMsg = new StringBuilder();
-        stringBuilderMsg.append(contacts_limit);
-        stringBuilderMsg.append(" ");
-        stringBuilderMsg.append(getResources().getString(R.string.contacts_limit));
+        stringBuilderMsg
+                .append(contacts_limit)
+                .append(Constants.DEFAULT_VALUE)
+                .append(getResources().getString(R.string.contacts_limit));
 
         switch (view.getId())
         {
             case R.id.add_btn:
-                if (mCoutViews < contacts_limit)
+                if (mCountViews < contacts_limit)
                 {
                     loadContactsFields();
                 }
@@ -118,7 +198,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.rmv_btn:
-                if (mCoutViews > 0)
+                if (mCountViews > 0)
                 {
                     removeContactsFields();
                 }
@@ -134,26 +214,26 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * Method to delete the Linear Layouts from email and phone
     * */
     private void removeContactsFields() {
-        int id_ll_email = ID_LL_EMAIL + mCoutViews - 1;
-        int id_ll_phone = ID_LL_PHONE + mCoutViews - 1;
-        int id_ll_space = ID_LL_SP + mCoutViews - 1;
+        int id_ll_email = ID_LL_EMAIL + mCountViews - 1;
+        int id_ll_phone = ID_LL_PHONE + mCountViews - 1;
+        int id_ll_space = ID_LL_SP + mCountViews - 1;
 
         deleteView(id_ll_email);
         deleteView(id_ll_phone);
         deleteView(id_ll_space);
 
-        mCoutViews--;
+        mCountViews--;
     }
 
-    private void deleteView(int id){
+    private void deleteView(int id) {
         View viewToDelete = mContainer_contacts_lly.findViewById(id);
-        ViewGroup parent  = (ViewGroup) viewToDelete.getParent();
+        ViewGroup parent = (ViewGroup) viewToDelete.getParent();
         parent.removeView(viewToDelete);
     }
 
     /*
-    * method to load all the fields per contact
-    * */
+        * method to load all the fields per contact
+        * */
     private void loadContactsFields() {
 
 
@@ -166,10 +246,9 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         addEmailField();
         addPhoneField();
-
         addSpaces();
 
-        mCoutViews++;
+        mCountViews++;
     }
 
     /*
@@ -178,14 +257,14 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addPhoneField() {
         mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
         mPhone_container = new LinearLayout(getContext());
-        mPhone_container = getContainerLayout(mPhone_container, ID_LL_PHONE + mCoutViews);
+        mPhone_container = getContainerLayout(mPhone_container, ID_LL_PHONE + mCountViews);
         mPhone_container.addView(mPhone_tv);
 
         mPhone_et = getView(mPhone_et,
                 R.string.phone_hint,
                 mParamsFieldsEt,
                 InputType.TYPE_CLASS_PHONE,
-                ID_ET_PHONE + mCoutViews);
+                ID_ET_PHONE + mCountViews);
         //To set the maxLength from edit text, in this case for 10 numbers
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(Constants.MAX_LENG);
@@ -201,14 +280,18 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addEmailField() {
         mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
-        mEmail_container = getContainerLayout(mEmail_container, ID_LL_EMAIL + mCoutViews);
+        mEmail_container = getContainerLayout(mEmail_container, ID_LL_EMAIL + mCountViews);
 
         mEmail_container.addView(mEmail_tv);
 
         mEmail_et = getView(mEmail_et,
                 R.string.email_hint, mParamsFieldsEt,
                 InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-                ID_ET_EMAIL + mCoutViews);
+                ID_ET_EMAIL + mCountViews);
+        if (!mIsEmail)
+        {
+            mEmail_container.setVisibility(View.GONE);
+        }
 
         mEmail_container.addView(mEmail_et);
         mContainer_contacts_lly.addView(mEmail_container);
@@ -221,7 +304,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addSpaces() {
         // To set the spaces
         mSpace_lly = new LinearLayout(getContext());
-        mSpace_lly = getSpaceLayout(mSpace_lly, ID_LL_SP+mCoutViews);
+        mSpace_lly = getSpaceLayout(mSpace_lly, ID_LL_SP + mCountViews);
         mContainer_contacts_lly.addView(mSpace_lly);
     }
 

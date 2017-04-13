@@ -21,4 +21,6 @@ public class Constants {
     //Status
     public static final String STATUS               = "Status";
     public static final String NOTIFICATIONS_STATUS = "notificationsStatus";
+    //Broadcast Receiver
+    public static final String BROADCAST = "broadcast";
 }

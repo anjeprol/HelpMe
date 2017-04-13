@@ -27,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity";
 
-    private TabLayout   mTabLayout;
-    private ViewPager   mViewPager;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
     private Preferences mProfile;
-    private Bundle      mDataBundle;
+    private Bundle mDataBundle;
 
 
     @Override
@@ -38,32 +38,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mViewPager  = (ViewPager) findViewById(R.id.viewPager);
-        mTabLayout  = (TabLayout) findViewById(R.id.tabs);
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         loadData();
 
         mTabLayout.setupWithViewPager(mViewPager);
 
 
-
         setupViewPager(mViewPager);
         setupTabIcons();
     }
 
-    private void loadData(){
+    private void loadData() {
         mDataBundle = new Bundle();
+        int contactsSize = 0;
         UserPreferences userPreferences = new UserPreferences(
                 getSharedPreferences(
                         Constants.PREFERENCES,
                         Context.MODE_PRIVATE));
 
         mProfile = userPreferences.getPreferences();
-        mDataBundle.putString(Constants.USER_EMAIL,mProfile.getMailFrom());
-        mDataBundle.putString(Constants.BODY_MESSAGE,mProfile.getBodyMessage());
-        mDataBundle.putString(Constants.PASSWORD,mProfile.getPassword());
-        mDataBundle.putBoolean(Constants.CHECKED_EMAIL,mProfile.isEmailChecked());
-        mDataBundle.putInt(Constants.SENSIBILITY,mProfile.getSensibility());
+        contactsSize = mProfile.getContacts().getPhoneNumbers().size();
+        if (contactsSize > 0)
+        {
+            //mDataBundle.putString(Constants.PHONES,);
+        }
+        mDataBundle.putString(Constants.USER_EMAIL, mProfile.getMailFrom());
+        mDataBundle.putString(Constants.BODY_MESSAGE, mProfile.getBodyMessage());
+        mDataBundle.putString(Constants.PASSWORD, mProfile.getPassword());
+        mDataBundle.putBoolean(Constants.CHECKED_EMAIL, mProfile.isEmailChecked());
+        mDataBundle.putInt(Constants.SENSIBILITY, mProfile.getSensibility());
     }
 
     /*

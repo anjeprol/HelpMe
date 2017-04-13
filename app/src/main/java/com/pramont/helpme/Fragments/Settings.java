@@ -3,8 +3,10 @@ package com.pramont.helpme.Fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.pramont.helpme.Activities.MainActivity;
 import com.pramont.helpme.Pojos.NotificationSettings.Preferences;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
@@ -88,27 +91,34 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, final boolean isChecked) {
+        //to send the status from emails enabled
+        Intent intent = new Intent(Constants.BROADCAST);
+
+
         if (isChecked)
         {
             if (mIsSharedPreference)
             {
                 mIsSharedPreference = false;
                 mGmail_section_ll.setVisibility(View.VISIBLE);
+
             }
             else
             {
                 showAlert(getContext());
             }
-
         }
         else
         {
             mGmail_section_ll.setVisibility(View.GONE);
         }
+        intent.putExtra(Constants.CHECKED_EMAIL,isChecked);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         //Saving the status (email switch) for sharedPreferences
         mProfile.setEmailChecked(isChecked);
     }
 
+    //Method to show or hide the email section
     public void showAlert(Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context)
                 .setTitle(R.string.msg_email_notification)
@@ -116,7 +126,6 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
                 .setNegativeButton(context.getString(R.string.alert_opt_not), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //No actions for now
                         mSwitchGmail.setChecked(false);
 
                     }
@@ -124,7 +133,6 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
                 .setPositiveButton(context.getString(R.string.alert_opt_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO enable to show the section for gmail account
                         mGmail_section_ll.setVisibility(View.VISIBLE);
                     }
                 })
