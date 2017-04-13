@@ -6,15 +6,15 @@ import java.util.ArrayList;
  * Created by antoniopradoo on 3/28/17.
  */
 
-public class Contacts {
-    private ArrayList<Integer> phoneNumbers;
+public class Contact {
+    private ArrayList<Long> phoneNumbers;
     private ArrayList<String> mailTo;
 
-    public ArrayList<Integer> getPhoneNumbers() {
+    public ArrayList<Long> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(ArrayList<Integer> phoneNumbers) {
+    public void setPhoneNumbers(ArrayList<Long> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 

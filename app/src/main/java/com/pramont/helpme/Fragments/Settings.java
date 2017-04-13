@@ -18,11 +18,11 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.pramont.helpme.Activities.MainActivity;
-import com.pramont.helpme.Pojos.NotificationSettings.Preferences;
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
-import com.pramont.helpme.Utils.UserPreferences;
+import com.pramont.helpme.Utils.Preferences;
+import com.pramont.helpme.Utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +36,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
     private EditText mEmailUsr_et;
     private EditText mPassword_et;
     private boolean mIsSharedPreference = false;
-    private Preferences mProfile = new Preferences();
+    private UserSettings mProfile;
 
 
     @Override
@@ -58,34 +58,34 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
 
         mSwitchGmail.setOnCheckedChangeListener(this);
         mSensibility_SB.setOnSeekBarChangeListener(this);
-
         loadData();
         return rootView;
     }
 
     //To Load the data from sharePreferences that comes from the bundle
     private void loadData() {
-        Bundle bundle;
         int progress;
-        if (getArguments() != null)
+        mProfile = new Utils()
+                .getUserData
+                        (new Preferences (
+                                getActivity().
+                                        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+
+        mIsSharedPreference = true;
+        mMessage_et.setText(mProfile.getBodyMessage().trim());
+        progress = mProfile.getSensibility();
+        progress = progress * 10;
+        mSensibility_SB.setProgress(progress);
+        if (mProfile.isEmailChecked())
         {
-            mIsSharedPreference = true;
-            bundle = getArguments();
-            mMessage_et.setText(bundle.getString(Constants.BODY_MESSAGE).trim());
-            progress = bundle.getInt(Constants.SENSIBILITY);
-            progress = progress * 10;
-            mSensibility_SB.setProgress(progress);
-            if (bundle.getBoolean(Constants.CHECKED_EMAIL))
-            {
-                mGmail_section_ll.setVisibility(View.VISIBLE);
-                mSwitchGmail.setChecked(bundle.getBoolean(Constants.CHECKED_EMAIL));
-                mPassword_et.setText(bundle.getString(Constants.PASSWORD).trim());
-                mEmailUsr_et.setText(bundle.getString(Constants.USER_EMAIL).trim());
-            }
-            else
-            {
-                mGmail_section_ll.setVisibility(View.GONE);
-            }
+            mGmail_section_ll.setVisibility(View.VISIBLE);
+            mSwitchGmail.setChecked(mProfile.isEmailChecked());
+            mPassword_et.setText(mProfile.getPassword().trim());
+            mEmailUsr_et.setText(mProfile.getMailFrom().trim());
+        }
+        else
+        {
+            mGmail_section_ll.setVisibility(View.GONE);
         }
     }
 
@@ -112,7 +112,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         {
             mGmail_section_ll.setVisibility(View.GONE);
         }
-        intent.putExtra(Constants.CHECKED_EMAIL,isChecked);
+        intent.putExtra(Constants.CHECKED_EMAIL, isChecked);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         //Saving the status (email switch) for sharedPreferences
         mProfile.setEmailChecked(isChecked);
@@ -165,12 +165,12 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         }
 
         //Setting the sharedPreference in order to send the user information for sharedPreferences
-        UserPreferences userPreferences = new UserPreferences(
+        Preferences preferences = new Preferences(
                 getContext()
                         .getSharedPreferences(Constants.PREFERENCES, getContext().MODE_PRIVATE));
         //Saving the whole structure from user preferences, at this point al the values should be
         //into the structure for settings fragment
-        userPreferences.setPreferences(mProfile);
+        preferences.setPreferences(mProfile);
     }
 
     @Override

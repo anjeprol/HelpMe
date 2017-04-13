@@ -2,38 +2,38 @@ package com.pramont.helpme.Utils;
 
 import android.content.SharedPreferences;
 
-import com.pramont.helpme.Pojos.NotificationSettings.Contacts;
-import com.pramont.helpme.Pojos.NotificationSettings.Preferences;
+import com.pramont.helpme.Pojos.NotificationSettings.Contact;
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 
 
 /**
  * Created by antoniopradoo on 3/30/17.
  */
 
-public class UserPreferences extends Constants {
+public class Preferences extends Constants {
     private SharedPreferences mSharedPreferences;
-    private Preferences userPreferences = new Preferences();
+    private UserSettings mUserSettings = new UserSettings();
 
-    public UserPreferences(SharedPreferences sharedPreferences) {
+    public Preferences(SharedPreferences sharedPreferences) {
         this.mSharedPreferences = sharedPreferences;
     }
 
-    private static final String TAG = "UserPreferences";
+    private static final String TAG = "Preferences";
 
     /*
     * Method to get all the preferences at once
     * */
-    public Preferences getPreferences() {
+    public UserSettings getPreferences() {
         String emails;
         String phones;
         String sens;
 
-        userPreferences.setBodyMessage(
+        mUserSettings.setBodyMessage(
                 mSharedPreferences.getString(
                         BODY_MESSAGE,
                         DEFAULT_VALUE));
 
-        userPreferences.setEmailChecked(
+        mUserSettings.setEmailChecked(
                 mSharedPreferences.getBoolean(
                         CHECKED_EMAIL,
                         false));
@@ -41,17 +41,17 @@ public class UserPreferences extends Constants {
         sens = mSharedPreferences.getString(SENSIBILITY, DEFAULT_VALUE);
         if (!sens.trim().isEmpty())
         {
-            userPreferences.setSensibility(
+            mUserSettings.setSensibility(
                     Integer.valueOf(sens));
         }
 
 
-        userPreferences.setPassword(
+        mUserSettings.setPassword(
                 mSharedPreferences.getString(
                         PASSWORD,
                         DEFAULT_VALUE));
 
-        userPreferences.setMailFrom(
+        mUserSettings.setMailFrom(
                 mSharedPreferences.getString(
                         USER_EMAIL,
                         DEFAULT_VALUE));
@@ -64,19 +64,19 @@ public class UserPreferences extends Constants {
                 getString(PHONES,
                         DEFAULT_VALUE);
 
-        userPreferences.setContacts(
+        mUserSettings.setContacts(
                 getContacts(
                         phones,
                         emails));
 
-        return userPreferences;
+        return mUserSettings;
     }
 
     /*
     * method to get the contact object
     * */
-    private Contacts getContacts(String phones, String emails) {
-        Contacts contacts = new Contacts();
+    private Contact getContacts(String phones, String emails) {
+        Contact contacts = new Contact();
         Utils utils = new Utils();
 
         contacts.setPhoneNumbers(utils.getPhones(phones));
@@ -88,7 +88,7 @@ public class UserPreferences extends Constants {
     /*
     * Method to set all the preferences on one hit
     * */
-    public void setPreferences(Preferences userSettings) {
+    public void setPreferences(UserSettings userSettings) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
 
         editor.putString(
@@ -130,13 +130,13 @@ public class UserPreferences extends Constants {
     /*
     *  method to concatenate the numbers and the emails separated by comas
     * */
-    private StringBuilder concat(Contacts contacts, boolean isEmailChecked, boolean isPhone) {
+    private StringBuilder concat(Contact contacts, boolean isEmailChecked, boolean isPhone) {
 
         StringBuilder stringBuilder = new StringBuilder();
         int size = 0;
         if (contacts != null)
         {
-            contacts.getPhoneNumbers().size();
+            size = contacts.getPhoneNumbers().size();
         }
 
         for (int index = 0; index < size; index++)

@@ -1,13 +1,10 @@
 package com.pramont.helpme.Pojos.NotificationSettings;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  * Created by antoniopradoo on 3/16/17.
  */
 
-public class Preferences {
+public class UserSettings {
 
     private String mailFrom;
     private String fullName;
@@ -15,13 +12,13 @@ public class Preferences {
     private String bodyMessage;
     private boolean isEmailChecked;
     private int sensibility;
-    private Contacts contacts;
+    private Contact contacts;
 
-    public Contacts getContacts() {
+    public Contact getContacts() {
         return contacts;
     }
 
-    public void setContacts(Contacts contacts) {
+    public void setContacts(Contact contacts) {
         this.contacts = contacts;
     }
 

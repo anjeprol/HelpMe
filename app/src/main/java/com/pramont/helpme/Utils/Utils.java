@@ -2,6 +2,8 @@ package com.pramont.helpme.Utils;
 
 import android.util.Log;
 
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,15 +33,15 @@ public class Utils {
      *              the ArrayList converted in integers
      * @Param phones String
      */
-    public ArrayList<Integer> getPhones(String phones) {
+    public ArrayList<Long> getPhones(String phones) {
         ArrayList<String> stringArrayList = getEmails(phones);
-        ArrayList<Integer> integerArrayList = new ArrayList<>();
+        ArrayList<Long> longArrayList = new ArrayList<>();
         for (String stringValue : stringArrayList)
         {
             try
             {
                 //Convert String to Integer, and store it into integer array list.
-                integerArrayList.add(Integer.parseInt(stringValue));
+                longArrayList.add(Long.parseLong(stringValue));
             }
             catch (NumberFormatException nfe)
             {
@@ -47,6 +49,16 @@ public class Utils {
                 Log.d("NumberFormat", "Parsing failed! " + stringValue + " can not be an integer");
             }
         }
-        return integerArrayList;
+        return longArrayList;
+    }
+
+    /**
+     * @Description Method to read the sharedPreferences
+     *
+     * @Param preferences Preferences
+     */
+    public UserSettings getUserData(Preferences preferences){
+        UserSettings userSettings = preferences.getPreferences();
+        return userSettings;
     }
 }
