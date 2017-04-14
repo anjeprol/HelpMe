@@ -147,6 +147,13 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         String password = mPassword_et.getText().toString();
         String email = mEmailUsr_et.getText().toString();
 
+     /*   mProfile = new Utils()
+                .getUserData
+                        (new Preferences (
+                                getActivity().
+                                        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE))); */
+
+
         //Saving the body message in case of exist
         if (!message.trim().isEmpty())
         {

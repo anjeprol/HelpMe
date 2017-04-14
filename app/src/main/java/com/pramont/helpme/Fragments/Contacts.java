@@ -95,8 +95,30 @@ public class Contacts extends Fragment implements View.OnClickListener {
     }
 
     /*
+    * Method to load the preferences from sharedPreferences
+    * */
+    private void loadData() {
+        EditText emailTo_et;
+        EditText phoneTo_et;
+        mProfile = new Utils()
+                .getUserData(
+                        new Preferences(getActivity()
+                                .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+        mIsEmail = mProfile.isEmailChecked();
+        for (int index = 0; index < mProfile.getContacts().getPhoneNumbers().size(); index++)
+        {
+            mCountViews = index;
+            loadContactsFields();
+            emailTo_et = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
+            phoneTo_et = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
+            emailTo_et.setText(mProfile.getContacts().getMailTo().get(index));
+            phoneTo_et.setText(Long.toString(mProfile.getContacts().getPhoneNumbers().get(index)));
+        }
+    }
+
+    /*
     * Method to change the visibility according the status for the email switch, hiding or showing
-     * the email layout
+    * the email layout
     * */
     private void changeVisibility() {
         LinearLayout emailContainer_ll;
@@ -118,31 +140,6 @@ public class Contacts extends Fragment implements View.OnClickListener {
         }
     }
 
-    /*
-    * Method to load the preferences from sharedPreferences
-    * */
-    private void loadData() {
-        EditText emailTo_et ;
-        EditText phoneTo_et;
-        mProfile = new Utils()
-                .getUserData(
-                        new Preferences(getActivity()
-                                .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
-        mIsEmail = mProfile.isEmailChecked();
-        for (int index = 0 ; index < mProfile.getContacts().getPhoneNumbers().size(); index++)
-        {
-            mCountViews = index;
-            loadContactsFields();
-            emailTo_et = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
-            phoneTo_et = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
-            emailTo_et.setText(mProfile.getContacts().getMailTo().get(index));
-            phoneTo_et.setText(Long.toString(mProfile.getContacts().getPhoneNumbers().get(index)));
-
-        }
-
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -157,14 +154,31 @@ public class Contacts extends Fragment implements View.OnClickListener {
         ArrayList<String> emails_al = new ArrayList<>();
         EditText phones;
         EditText emails;
+
+        mProfile = new Utils()
+                .getUserData
+                        (new Preferences (
+                                getActivity().
+                                        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+
+        String tmp = new String();
         for (int index = 0; index < mCountViews; index++)
         {
             phones = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
-            phones_al.add(index,Long.parseLong(phones.getText().toString()) );
+            tmp = phones.getText().toString().trim();
+            if (!tmp.isEmpty())
+            {
+                phones_al.add(index, Long.parseLong(tmp));
+            }
+
             if (mProfile.isEmailChecked())
             {
                 emails = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
-                emails_al.add(index, emails.getText().toString().trim());
+                tmp = emails.getText().toString().trim();
+                if (!tmp.isEmpty())
+                {
+                    emails_al.add(index, tmp);
+                }
             }
         }
         contact.setMailTo(emails_al);
