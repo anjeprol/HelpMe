@@ -160,7 +160,7 @@ public class Preferences extends Constants {
                 {
                     stringBuilder.append(contacts.getPhoneNumbers().get(index));
                 }
-                else
+                else if(index < contacts.getMailTo().size())
                 {
                     stringBuilder.append(contacts.getMailTo().get(index));
                 }

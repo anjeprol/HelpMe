@@ -111,7 +111,10 @@ public class Contacts extends Fragment implements View.OnClickListener {
             loadContactsFields();
             emailTo_et = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
             phoneTo_et = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
-            emailTo_et.setText(mProfile.getContacts().getMailTo().get(index));
+            if (index < mProfile.getContacts().getMailTo().size())
+            {
+                emailTo_et.setText(mProfile.getContacts().getMailTo().get(index));
+            }
             phoneTo_et.setText(Long.toString(mProfile.getContacts().getPhoneNumbers().get(index)));
         }
     }
@@ -157,7 +160,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         mProfile = new Utils()
                 .getUserData
-                        (new Preferences (
+                        (new Preferences(
                                 getActivity().
                                         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
 
