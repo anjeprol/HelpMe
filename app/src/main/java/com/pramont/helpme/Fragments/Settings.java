@@ -55,7 +55,6 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
 
         mProgress_tv.setText(mProgress_tv.getText().toString() + Constants.DEFAULT_VALUE + getString(R.string.symb_percentage));
 
-
         mSwitchGmail.setOnCheckedChangeListener(this);
         mSensibility_SB.setOnSeekBarChangeListener(this);
         loadData();
@@ -146,13 +145,6 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         String message = mMessage_et.getText().toString();
         String password = mPassword_et.getText().toString();
         String email = mEmailUsr_et.getText().toString();
-
-     /*   mProfile = new Utils()
-                .getUserData
-                        (new Preferences (
-                                getActivity().
-                                        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE))); */
-
 
         //Saving the body message in case of exist
         if (!message.trim().isEmpty())
