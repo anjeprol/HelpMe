@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.pramont.helpme.Pojos.NotificationSettings.Contact;
 import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
@@ -105,17 +104,17 @@ public class Contacts extends Fragment implements View.OnClickListener {
                         new Preferences(getActivity()
                                 .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
         mIsEmail = mProfile.isEmailChecked();
-        for (int index = 0; index < mProfile.getContacts().getPhoneNumbers().size(); index++)
+        for (int index = 0; index < mProfile.getPhoneNumbers().size(); index++)
         {
             mCountViews = index;
             loadContactsFields();
             emailTo_et = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
             phoneTo_et = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
-            if (index < mProfile.getContacts().getMailTo().size())
+            if (index < mProfile.getMailsTo().size())
             {
-                emailTo_et.setText(mProfile.getContacts().getMailTo().get(index));
+                emailTo_et.setText(mProfile.getMailsTo().get(index));
             }
-            phoneTo_et.setText(Long.toString(mProfile.getContacts().getPhoneNumbers().get(index)));
+            phoneTo_et.setText(mProfile.getPhoneNumbers().get(index));
         }
     }
 
@@ -152,8 +151,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        Contact contact = new Contact();
-        ArrayList<Long> phones_al = new ArrayList<>();
+        ArrayList<String> phones_al = new ArrayList<>();
         ArrayList<String> emails_al = new ArrayList<>();
         EditText phones;
         EditText emails;
@@ -164,14 +162,14 @@ public class Contacts extends Fragment implements View.OnClickListener {
                                 getActivity().
                                         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
 
-        String tmp = new String();
+        String tmp ;
         for (int index = 0; index < mCountViews; index++)
         {
             phones = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
             tmp = phones.getText().toString().trim();
             if (!tmp.isEmpty())
             {
-                phones_al.add(index, Long.parseLong(tmp));
+                phones_al.add(index, tmp);
             }
 
             if (mProfile.isEmailChecked())
@@ -184,9 +182,8 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 }
             }
         }
-        contact.setMailTo(emails_al);
-        contact.setPhoneNumbers(phones_al);
-        mProfile.setContacts(contact);
+        mProfile.setMailsTo(emails_al);
+        mProfile.setPhoneNumbers(phones_al);
 
         //Setting the sharedPreference in order to send the user information for sharedPreferences
         Preferences preferences = new Preferences(

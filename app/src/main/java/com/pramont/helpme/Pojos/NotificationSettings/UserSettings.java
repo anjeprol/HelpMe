@@ -1,27 +1,33 @@
 package com.pramont.helpme.Pojos.NotificationSettings;
 
-/**
- * Created by antoniopradoo on 3/16/17.
- */
+import java.util.ArrayList;
+
 
 public class UserSettings {
 
     private String mailFrom;
-    private String fullName;
     private String password;
     private String bodyMessage;
     private boolean isEmailChecked;
     private int sensibility;
-    private Contact contacts;
+    private ArrayList<String> phoneNumbers;
+    private ArrayList<String> mailsTo;
 
-    public Contact getContacts() {
-        return contacts;
+    public ArrayList<String> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setContacts(Contact contacts) {
-        this.contacts = contacts;
+    public void setPhoneNumbers(ArrayList<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
+    public ArrayList<String> getMailsTo() {
+        return mailsTo;
+    }
+
+    public void setMailsTo(ArrayList<String> mailsTo) {
+        this.mailsTo = mailsTo;
+    }
     public int getSensibility() {
         return sensibility;
     }
@@ -44,14 +50,6 @@ public class UserSettings {
 
     public void setMailFrom(String mailFrom) {
         this.mailFrom = mailFrom;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getPassword() {

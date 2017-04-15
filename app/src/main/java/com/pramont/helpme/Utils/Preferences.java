@@ -2,8 +2,9 @@ package com.pramont.helpme.Utils;
 
 import android.content.SharedPreferences;
 
-import com.pramont.helpme.Pojos.NotificationSettings.Contact;
 import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,60 +30,32 @@ public class Preferences extends Constants {
         String sens;
 
         mUserSettings.setBodyMessage(
-                mSharedPreferences.getString(
-                        BODY_MESSAGE,
-                        DEFAULT_VALUE));
+                mSharedPreferences.getString(BODY_MESSAGE, DEFAULT_VALUE));
 
         mUserSettings.setEmailChecked(
-                mSharedPreferences.getBoolean(
-                        CHECKED_EMAIL,
-                        false));
+                mSharedPreferences.getBoolean(CHECKED_EMAIL, false));
 
         sens = mSharedPreferences.getString(SENSIBILITY, DEFAULT_VALUE);
         if (!sens.trim().isEmpty())
         {
-            mUserSettings.setSensibility(
-                    Integer.valueOf(sens));
+            mUserSettings.setSensibility(Integer.valueOf(sens));
         }
 
-
         mUserSettings.setPassword(
-                mSharedPreferences.getString(
-                        PASSWORD,
-                        DEFAULT_VALUE));
+                mSharedPreferences.getString(PASSWORD, DEFAULT_VALUE));
 
         mUserSettings.setMailFrom(
-                mSharedPreferences.getString(
-                        USER_EMAIL,
-                        DEFAULT_VALUE));
+                mSharedPreferences.getString(USER_EMAIL, DEFAULT_VALUE));
 
-        emails = mSharedPreferences
-                .getString(MAILS,
-                        DEFAULT_VALUE);
+        emails = mSharedPreferences.getString(MAILS, DEFAULT_VALUE);
 
-        phones = mSharedPreferences.
-                getString(PHONES,
-                        DEFAULT_VALUE);
+        phones = mSharedPreferences.getString(PHONES, DEFAULT_VALUE);
 
-        mUserSettings.setContacts(
-                getContacts(
-                        phones,
-                        emails));
+        mUserSettings.setMailsTo(new Utils().splitString(emails));
+
+        mUserSettings.setPhoneNumbers(new Utils().splitString(phones));
 
         return mUserSettings;
-    }
-
-    /*
-    * method to get the contact object
-    * */
-    private Contact getContacts(String phones, String emails) {
-        Contact contacts = new Contact();
-        Utils utils = new Utils();
-
-        contacts.setPhoneNumbers(utils.getPhones(phones));
-        contacts.setMailTo(utils.getEmails(emails));
-
-        return contacts;
     }
 
     /*
@@ -91,80 +64,45 @@ public class Preferences extends Constants {
     public void setPreferences(UserSettings userSettings) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
 
-        editor.putString(
-                BODY_MESSAGE,
-                userSettings.getBodyMessage());
-        editor.putBoolean(
-                CHECKED_EMAIL,
-                userSettings.isEmailChecked());
-        editor.putString(
-                SENSIBILITY,
+        editor.putString(BODY_MESSAGE, userSettings.getBodyMessage());
+
+        editor.putBoolean(CHECKED_EMAIL, userSettings.isEmailChecked());
+
+        editor.putString(SENSIBILITY,
                 String.valueOf(
                         userSettings.getSensibility()));
-        editor.putString(
-                PASSWORD,
-                userSettings.getPassword());
-        editor.putString(
-                USER_EMAIL,
-                userSettings.getMailFrom());
+
+        editor.putString(PASSWORD, userSettings.getPassword());
+
+        editor.putString(USER_EMAIL, userSettings.getMailFrom());
+
         if (userSettings.isEmailChecked())
         {
-            editor.putString(
-                    MAILS,
-                    concat(
-                            userSettings.getContacts(),
-                            userSettings.isEmailChecked(),
-                            false)
-                            .toString());
+            editor.putString(MAILS, concat(userSettings, true).toString());
         }
-        editor.putString(
-                PHONES,
-                concat(
-                        userSettings.getContacts(),
-                        userSettings.isEmailChecked(),
-                        true)
-                        .toString());
+        editor.putString(PHONES, concat(userSettings, false).toString());
+
         editor.commit();
     }
 
     /*
     *  method to concatenate the numbers and the emails separated by comas
     * */
-    private StringBuilder concat(Contact contacts, boolean isEmailChecked, boolean isPhone) {
-
+    private StringBuilder concat(UserSettings userSettings, boolean isEmail) {
         StringBuilder stringBuilder = new StringBuilder();
-        int size = 0;
-        if (contacts != null)
+        ArrayList<String> stringArrayList;
+        if (isEmail)
         {
-            size = contacts.getPhoneNumbers().size();
+            stringArrayList = userSettings.getMailsTo();
         }
-
-        for (int index = 0; index < size; index++)
+        else
         {
-            if (index + 1 != size)
-            {
-                if (isEmailChecked && !isPhone)
-                {
-                    stringBuilder.append(contacts.getMailTo().get(index));
-                    stringBuilder.append(SEPARATOR);
-                }
-                else
-                {
-                    stringBuilder.append(contacts.getPhoneNumbers().get(index));
-                    stringBuilder.append(SEPARATOR);
-                }
-            }
-            else
-            {
-                if (isPhone)
-                {
-                    stringBuilder.append(contacts.getPhoneNumbers().get(index));
-                }
-                else if(index < contacts.getMailTo().size())
-                {
-                    stringBuilder.append(contacts.getMailTo().get(index));
-                }
-            }
+            stringArrayList = userSettings.getPhoneNumbers();
+        }
+        for (String string : stringArrayList)
+        {
+            stringBuilder.append(string);
+            stringBuilder.append(SEPARATOR);
         }
         return stringBuilder;
     }
