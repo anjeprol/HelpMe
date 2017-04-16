@@ -100,7 +100,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
             try
             {
                 //To send the email after checking permissions
-                activateAlerts();
+                //activateAlerts();
                 Log.d(Constants.TAG_EMAIL, getString(R.string.email_sending));
             }
             catch (Exception e)
@@ -129,22 +129,22 @@ public class Buttons extends Fragment implements View.OnClickListener {
             {
                 //To send the email after checking permissions
                 // activateAlerts();
-            //    if (activateAlerts())
-            //    {
+                //    if (activateAlerts())
+                //    {
                 activateAlerts();
-                    startProgressDialog();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
+                startProgressDialog();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
 
-                            mAlert_ImgButton.setImageResource(R.drawable.ic_green_button);
-                            mAlert_Message_tv.setText(getString(R.string.active));
-                            progressDialog.dismiss();
-                            Log.d(Constants.TAG_EMAIL, getString(R.string.email_sending));
-                        }
-                    }, 1000);   //1 seconds
+                        mAlert_ImgButton.setImageResource(R.drawable.ic_green_button);
+                        mAlert_Message_tv.setText(getString(R.string.active));
+                        progressDialog.dismiss();
+                        Log.d(Constants.TAG_EMAIL, getString(R.string.email_sending));
+                    }
+                }, 1000);   //1 seconds
 
-         //       }
+                //       }
 
             }
             catch (Exception e)
@@ -205,7 +205,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
         //To send the SMS
         sendSMS();
 
-       // return false;
+        // return false;
     }
 
     private void checkPermissions() {
