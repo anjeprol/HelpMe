@@ -8,6 +8,9 @@ public class UserSettings {
     private String mailFrom;
     private String password;
     private String bodyMessage;
+    private String subject;
+    private String defaultMessaje;
+    private String location;
     private boolean isEmailChecked;
     private int sensibility;
     private ArrayList<String> phoneNumbers;
@@ -19,6 +22,30 @@ public class UserSettings {
 
     public void setPhoneNumbers(ArrayList<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDefaultMessaje() {
+        return defaultMessaje;
+    }
+
+    public void setDefaultMessaje(String defaultMessaje) {
+        this.defaultMessaje = defaultMessaje;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public ArrayList<String> getMailsTo() {

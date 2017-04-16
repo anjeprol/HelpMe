@@ -1,5 +1,8 @@
 package com.pramont.helpme.Emails;
 
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
+import com.pramont.helpme.Utils.Constants;
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,15 +14,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class Gmail {
-    private static String TO   = "anjeproL_prado@hotmail.com";
-    private static String FROM = "antoniopradoo@gmail.com";
-    private static String USER = "antoniopradoo";
-    private static String PASSWD = "lireovas4563";
-    private static String LOCATION = "https://maps.google.com/?q=20.468998,-99.881996";
+public class Gmail extends Constants{
+    private static String TO ;
 
-    public static void sendMail() {
+    public static void sendMail(final UserSettings userSettings) {
         Properties props = new Properties();
+        StringBuilder stringBuilder = new StringBuilder();
+        final String [] USER = userSettings.getMailFrom().split("@");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class",
@@ -30,19 +31,28 @@ public class Gmail {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(USER,PASSWD);
+                        return new PasswordAuthentication(USER[0],userSettings.getPassword());
                     }
                 });
+
+        for(String string : userSettings.getMailsTo())
+        {
+            stringBuilder
+                    .append(string)
+                    .append(SEPARATOR);
+        }
+
+        TO = stringBuilder.toString();
+        TO = TO.substring(0,TO.length()-1);
 
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(FROM));
-            message.setRecipients(Message.RecipientType.TO,
+            message.setFrom(new InternetAddress(userSettings.getMailFrom()));
+            message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(TO)); // TO
-            message.setSubject("Panic Button Message");
-            message.setText("Estoy en problemas, necesito tu ayuda" +
-                    "\n\n Esta es mi ultima ubicación "+LOCATION);
+            message.setSubject(userSettings.getSubject());
+            message.setText(userSettings.getDefaultMessaje()+JUMP_LINE+userSettings.getLocation());
 
             Transport.send(message);
 

@@ -7,9 +7,12 @@ package com.pramont.helpme.Utils;
 public class Constants {
     public static final String TAG_EMAIL = "Email Sender";
     public static final int MAX_LENG = 10 ;
+    //Permissions
+    public static final int REQUEST_CODE_ASK_PERMISSIONS = 823;
     // Preferences
     public static final String DEFAULT_VALUE        = "";
     public static final String SEPARATOR            = ",";
+    public static final String JUMP_LINE            = "\n\n";
     public static final String PREFERENCES          = "HelpPreferences";
     public static final String MAILS                = "Mails";
     public static final String PHONES               = "Phones";

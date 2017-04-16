@@ -9,6 +9,9 @@
     <integer name="min_required_sensibility_int">20</integer>
     <string name="symb_percentage">%</string>
 
+    <!-- Maps template link-->
+    <string name="url_gmaps">https://maps.google.com/?q=19.468998,-98.881996</string>
+
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>
     <string name="subject_email_app">Panic Button Message</string>>
@@ -25,9 +28,6 @@
     <string name="label_add">Add</string>
     <string name="label_remove">Remove</string>
 
-
-    <!-- Maps template link-->
-    <string name="url_gmaps">https://maps.google.com/?q=</string>
 
     <!-- title name from each tab-->
     <string name="title_1">Button</string>
@@ -59,6 +59,11 @@
         This will enable notifications through your gmail account only. \n\n Would you like to continue ?
     </string>
     <string name="service_notification_section_tv">Service</string>
+    <string name="gmail_subject">Panic Button Message</string>
+    <string name="gmail_default_message">prueba de mensajes multiples</string>
+    <string name="dialog_activating">Activating</string>
+    <string name="dialog_wait">Please wait...</string>
+    <string name="sms_error_message">SMS failed, try again</string>
 
 
 </resources>
