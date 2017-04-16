@@ -218,8 +218,9 @@ public class Buttons extends Fragment implements View.OnClickListener {
             {
                 requestPermissions(new String[]{Manifest.permission.SEND_SMS}, Constants.REQUEST_CODE_ASK_PERMISSIONS);
             }
+            //TODO add the permissions from Location
         }
-        //TODO add the permissions from Location
+
     }
 
     private void sendSMS() {
