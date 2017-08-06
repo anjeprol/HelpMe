@@ -1,3 +1,4 @@
 # configuration files #
 #######################
-.idea/*
+.idea
+*.iml
