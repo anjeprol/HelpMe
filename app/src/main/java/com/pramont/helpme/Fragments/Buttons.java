@@ -78,9 +78,9 @@ public class Buttons extends Fragment implements View.OnClickListener {
         }
     }
 
-    /*
-* method to activate the alerts
-* */
+    /**
+     * Method to create the alert service in order to notify all the contacts
+     */
     private void setService() {
         if (isServiceFirst)
         {
