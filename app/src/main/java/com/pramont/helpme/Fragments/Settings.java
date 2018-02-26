@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -24,10 +26,11 @@ import com.pramont.helpme.Utils.Constants;
 import com.pramont.helpme.Utils.Preferences;
 import com.pramont.helpme.Utils.Utils;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Settings extends Fragment implements CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+public class Settings extends Fragment implements CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private Switch mSwitchGmail;
     private LinearLayout mGmail_section_ll;
     private SeekBar mSensibility_SB;
@@ -36,7 +39,9 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
     private EditText mEmailUsr_et;
     private EditText mPassword_et;
     private boolean mIsSharedPreference = false;
+    private boolean mIsVisible = false;
     private UserSettings mProfile;
+    private ImageView mVisivility_iv;
 
 
     @Override
@@ -52,13 +57,34 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         mMessage_et = (EditText) rootView.findViewById(R.id.et_body_msg);
         mEmailUsr_et = (EditText) rootView.findViewById(R.id.et_email_usr);
         mPassword_et = (EditText) rootView.findViewById(R.id.et_password_email);
+        mVisivility_iv = (ImageView) rootView.findViewById(R.id.img_visivility);
 
         mProgress_tv.setText(mProgress_tv.getText().toString() + Constants.DEFAULT_VALUE + getString(R.string.symb_percentage));
 
         mSwitchGmail.setOnCheckedChangeListener(this);
         mSensibility_SB.setOnSeekBarChangeListener(this);
+        mVisivility_iv.setOnClickListener(this);
         loadData();
         return rootView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.img_visivility:
+                if (!mIsVisible)
+                {
+                    mPassword_et.setTransformationMethod(null);
+                    mVisivility_iv.setImageResource(R.drawable.ic_visibility_black_24dp);
+                    mIsVisible = true;
+                } else {
+                    mPassword_et.setTransformationMethod(new PasswordTransformationMethod());
+                    mVisivility_iv.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+                    mIsVisible = false;
+                }
+                break;
+        }
     }
 
     //To Load the data from sharePreferences that comes from the bundle
@@ -66,7 +92,7 @@ public class Settings extends Fragment implements CompoundButton.OnCheckedChange
         int progress;
         mProfile = new Utils()
                 .getUserData
-                        (new Preferences (
+                        (new Preferences(
                                 getActivity().
                                         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
 

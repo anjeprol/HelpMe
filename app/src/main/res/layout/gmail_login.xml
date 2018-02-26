@@ -52,13 +52,21 @@
 
         <EditText
             android:id="@+id/et_password_email"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_right"
             android:background="@null"
+            android:maxLength="16"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:textSize="@dimen/text_size"/>
+
+        <ImageView
+            android:id="@+id/img_visivility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_right"
+            android:src="@drawable/ic_visibility_off_black_24dp"/>
 
     </LinearLayout>
 
