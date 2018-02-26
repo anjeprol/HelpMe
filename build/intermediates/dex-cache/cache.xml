@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/activation.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_d239b90c4087aab66e7b334e97eb774ef65b3127/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47aef4649211f23127f893ba6b0cd47a99ef935c">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0126db2f5f8ac7e62f266d1e8f74d4085e592919/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/activation.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/pre-dexed/debug/activation_d239b90c4087aab66e7b334e97eb774ef65b3127.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/mail.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/transforms/dex/debug/folders/1000/2/mail_01e1fb964d41109abe2adadf3b9e96d619e15f49/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/additionnal.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/pre-dexed/debug/additionnal_31303f3ee8b7217c84a9c13df6caaa4991d32544.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/additionnal.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/transforms/dex/debug/folders/1000/2/additionnal_31303f3ee8b7217c84a9c13df6caaa4991d32544/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/libs/mail.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/pre-dexed/debug/mail_01e1fb964d41109abe2adadf3b9e96d619e15f49.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/antoniopradoo/Desktop/PanicButtonProject/HelpMe/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6a5df357aa997824b745e12c19f71cbe62e055b3/classes.dex" />
+    </item>
+
+</items>
