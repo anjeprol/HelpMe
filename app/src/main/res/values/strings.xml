@@ -60,13 +60,13 @@
     </string>
     <string name="service_notification_section_tv">Service</string>
     <string name="gmail_subject">Panic Button Message</string>
-    <string name="gmail_default_message">prueba de mensajes multiples</string>
     <string name="dialog_activating">Activating</string>
     <string name="dialog_wait">Please wait...</string>
     <string name="sms_error_message">SMS failed, try again</string>
 
-    <string name="default_sms_text">Please help me, I am in troubles, this is my last location </string>
-    <string name="contact_notification">You are receiving this message because you are one emergency contact from this number </string>
+    <string name="default_msg_text">Please help me, I am in troubles, this is my last location</string>
+    <string name="contact_notification">Is sending this message because you are one emergency contact from this owner\'s number</string>
+    <string name="prefix_app_name">Security application named:</string>
 
 
 </resources>

@@ -25,6 +25,7 @@ import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
 import com.pramont.helpme.Utils.Preferences;
 import com.pramont.helpme.Utils.Utils;
+import com.pramont.helpme.sms.Notifications;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,11 +40,13 @@ public class Buttons extends Fragment implements View.OnClickListener {
     private boolean isAlertFirst = true;
     private ProgressDialog progressDialog;
     private UserSettings mProfile;
+    private Notifications mNotifications;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mNotifications = new Notifications(getActivity());
         View rootView = inflater.inflate(R.layout.fragment_buttons, container, false);
         checkPermissions();
 
@@ -169,17 +172,22 @@ public class Buttons extends Fragment implements View.OnClickListener {
     }
 
     /*
-    * Methond to send the email
+    * Method to send the email
     * */
     public void activateAlerts() {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         boolean isPhone = false;
         loadData();
-        mProfile.setDefaultMessage(getString(R.string.gmail_default_message));
+        StringBuilder message = new StringBuilder();
+        message.append(getString(R.string.default_msg_text))
+                .append(" ")
+                .append(getString(R.string.url_gmaps));
+
+        mProfile.setDefaultMessage(message.toString());
         mProfile.setSubject(getString(R.string.gmail_subject));
         //TODO add the location here and activate
         mProfile.setLocation(getString(R.string.url_gmaps));
-        if (mProfile.isEmailChecked())
+       /* if (mProfile.isEmailChecked())
         { //To send the emails
             if (mProfile.getPhoneNumbers() != null && !mProfile.getPhoneNumbers().isEmpty())
             {
@@ -200,10 +208,10 @@ public class Buttons extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "There is not contacts configured to notify", Toast.LENGTH_LONG).show();
                 }
             }
-        }
+        } */
 
         //To send the SMS
-        sendSMS();
+        mNotifications.sendSMS(mProfile);
 
         // return false;
     }
@@ -221,22 +229,6 @@ public class Buttons extends Fragment implements View.OnClickListener {
             //TODO add the permissions from Location
         }
 
-    }
-
-    private void sendSMS() {
-        for (String string : mProfile.getPhoneNumbers())
-        {
-            try
-            {
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(string, null, mProfile.getDefaultMessage(), null, null);
-                Log.d("SMS", "Enviando a :" + string + " Mensaje: " + mProfile.getDefaultMessage());
-            }
-            catch (android.content.ActivityNotFoundException ex)
-            {
-                Toast.makeText(getActivity(), R.string.sms_error_message, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 }

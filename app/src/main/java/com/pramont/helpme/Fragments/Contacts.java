@@ -27,6 +27,7 @@ import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
 import com.pramont.helpme.Utils.Preferences;
 import com.pramont.helpme.Utils.Utils;
+import com.pramont.helpme.sms.Notifications;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     LinearLayout mEmail_container;
     LinearLayout mPhone_container;
     LinearLayout mSpace_lly;
+    private boolean isNew = false;
     private TextView mEmail_tv;
     private TextView mPhone_tv;
     private EditText mEmail_et;
@@ -57,6 +59,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private boolean mIsEmail = false;
     private View mRootView;
     private UserSettings mProfile;
+    private Notifications mNotify;
     private BroadcastReceiver mEmailReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -69,6 +72,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mNotify = new Notifications(getActivity());
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
@@ -162,7 +166,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
                                 getActivity().
                                         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
 
-        String tmp ;
+        String tmp;
         for (int index = 0; index < mCountViews; index++)
         {
             phones = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
@@ -192,6 +196,25 @@ public class Contacts extends Fragment implements View.OnClickListener {
         //Saving the whole structure from user preferences, at this point al the values should be
         //into the structure for settings fragment
         preferences.setPreferences(mProfile);
+        //TODO  add the contact notifications
+        if (isNew)
+        {
+            notifyContact();
+            isNew = false;
+        }
+
+
+    }
+
+    private void notifyContact() {
+        StringBuilder message = new StringBuilder();
+        message.append(getString(R.string.prefix_app_name) + " ")
+                .append(getString(R.string.app_name))
+                .append("\n")
+                .append(getString(R.string.contact_notification));
+        //TODO build  the notification message
+        mProfile.setDefaultMessage(message.toString());
+        mNotify.sendSMS(mProfile);
     }
 
     /*
@@ -228,7 +251,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
         StringBuilder stringBuilderMsg = new StringBuilder();
         stringBuilderMsg
                 .append(contacts_limit)
-                .append(Constants.DEFAULT_VALUE)
+                .append(Constants.DEFAULT_VALUE + " ")
                 .append(getResources().getString(R.string.contacts_limit));
 
         switch (view.getId())
@@ -237,6 +260,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 if (mCountViews < contacts_limit)
                 {
                     loadContactsFields();
+                    isNew = true;
                 }
                 else
                 {
@@ -247,6 +271,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 if (mCountViews > 0)
                 {
                     removeContactsFields();
+                    isNew = false;
                 }
                 else
                 {
@@ -377,4 +402,5 @@ public class Contacts extends Fragment implements View.OnClickListener {
         editText.setId(id);
         return editText;
     }
+
 }
