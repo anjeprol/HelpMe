@@ -10,7 +10,7 @@
     <string name="symb_percentage">%</string>
 
     <!-- Maps template link-->
-    <string name="url_gmaps">https://maps.google.com/?q=19.468998,-98.881996</string>
+    <string name="url_gmaps">https://maps.google.com/?q=</string>
 
     <!-- TRANSLATE -->
     <string name="app_name">Help Me</string>

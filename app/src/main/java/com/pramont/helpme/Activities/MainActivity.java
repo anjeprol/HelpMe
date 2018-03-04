@@ -1,13 +1,21 @@
 package com.pramont.helpme.Activities;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.pramont.helpme.Fragments.Buttons;
 import com.pramont.helpme.Fragments.Contacts;
@@ -28,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private LocationManager mLocationManager;
+    private LocationListener mLocationListener;
+    private StringBuilder locat = new StringBuilder();
     private UserSettings mProfile;
 
 
@@ -44,10 +55,73 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
 
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                locat.append(getString(R.string.url_gmaps))
+                        .append(location.getLatitude())
+                        .append(",")
+                        .append(location.getLongitude());
+                mProfile.setLocation(locat.toString());
+                locat = new StringBuilder();
+                Log.d("LOCATION: ",mProfile.getLocation());
 
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        updateLocation();
         setupViewPager(mViewPager);
         setupTabIcons();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode)
+        {
+            case 10:
+                //   configure_button();
+                updateLocation();
+                break;
+            default:
+                break;
+        }
+    }
+
+    void updateLocation() {
+        // first check for permissions
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.INTERNET}, 10);
+            }
+            return;
+        }
+        //noinspection MissingPermission
+        mLocationManager.requestLocationUpdates("gps", 5000, 0, mLocationListener);
+    }
+
 
     /*
     * Method to load the shared preferences
