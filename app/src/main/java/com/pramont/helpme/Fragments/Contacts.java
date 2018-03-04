@@ -90,8 +90,8 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         mContainer_contacts_lly.addView(buttonsViews);
 
-        loadData();
-        changeVisibility();
+        loadData();//TODO once the email is back, just uncomment
+        //changeVisibility();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mEmailReceiver, new IntentFilter(Constants.BROADCAST));
 
         return mRootView;
@@ -214,6 +214,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 .append(getString(R.string.contact_notification));
         //TODO build  the notification message
         mProfile.setDefaultMessage(message.toString());
+
         mNotify.sendSMS(mProfile);
     }
 

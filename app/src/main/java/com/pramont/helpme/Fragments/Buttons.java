@@ -178,12 +178,8 @@ public class Buttons extends Fragment implements View.OnClickListener {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         boolean isPhone = false;
         loadData();
-        StringBuilder message = new StringBuilder();
-        message.append(getString(R.string.default_msg_text))
-                .append(" ")
-                .append(getString(R.string.url_gmaps));
 
-        mProfile.setDefaultMessage(message.toString());
+        mProfile.setDefaultMessage(getString(R.string.default_msg_text));
         mProfile.setSubject(getString(R.string.gmail_subject));
         //TODO add the location here and activate
         mProfile.setLocation(getString(R.string.url_gmaps));

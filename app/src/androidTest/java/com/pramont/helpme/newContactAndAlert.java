@@ -1,4 +1,4 @@
-package com.pramont.helpme.Activities;
+package com.pramont.helpme;
 
 
 import android.support.test.espresso.ViewInteraction;
@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.pramont.helpme.Activities.MainActivity;
 import com.pramont.helpme.R;
+import com.pramont.helpme.utils.UtilsTest;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -36,6 +38,7 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class newContactAndAlert {
+    UtilsTest utilsTest = new UtilsTest(1000);
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -188,14 +191,7 @@ public class newContactAndAlert {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        utilsTest.waitForIt();
 
         ViewInteraction tabView6 = onView(
                 allOf(childAtPosition(
