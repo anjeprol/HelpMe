@@ -55,7 +55,7 @@ public class newContactAndAlert {
                         childAtPosition(
                                 withId(R.id.tabs),
                                 0),
-                        1),
+                        2),
                         isDisplayed()));
         tabView.perform(click());
 
@@ -69,26 +69,6 @@ public class newContactAndAlert {
                                 0),
                         isDisplayed()));
         viewPager.perform(swipeLeft());
-
-        ViewInteraction tabView2 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        2),
-                        isDisplayed()));
-        tabView2.perform(click());
-
-        ViewInteraction viewPager2 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager2.perform(swipeLeft());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.rmv_btn), withText("Remove"),
@@ -118,12 +98,32 @@ public class newContactAndAlert {
                         1));
         editText.perform(scrollTo(), replaceText("3339567559"), closeSoftKeyboard());
 
-        ViewInteraction tabView3 = onView(
+        ViewInteraction tabView2 = onView(
                 allOf(childAtPosition(
                         childAtPosition(
                                 withId(R.id.tabs),
                                 0),
                         0),
+                        isDisplayed()));
+        tabView2.perform(click());
+
+        ViewInteraction viewPager2 = onView(
+                allOf(withId(R.id.viewPager),
+                        childAtPosition(
+                                allOf(withId(R.id.main_content),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        viewPager2.perform(swipeRight());
+
+        ViewInteraction tabView3 = onView(
+                allOf(childAtPosition(
+                        childAtPosition(
+                                withId(R.id.tabs),
+                                0),
+                        1),
                         isDisplayed()));
         tabView3.perform(click());
 
@@ -136,14 +136,14 @@ public class newContactAndAlert {
                                                 0)),
                                 0),
                         isDisplayed()));
-        viewPager3.perform(swipeRight());
+        viewPager3.perform(swipeLeft());
 
         ViewInteraction tabView4 = onView(
                 allOf(childAtPosition(
                         childAtPosition(
                                 withId(R.id.tabs),
                                 0),
-                        2),
+                        0),
                         isDisplayed()));
         tabView4.perform(click());
 
@@ -156,27 +156,7 @@ public class newContactAndAlert {
                                                 0)),
                                 0),
                         isDisplayed()));
-        viewPager4.perform(swipeLeft());
-
-        ViewInteraction tabView5 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        0),
-                        isDisplayed()));
-        tabView5.perform(click());
-
-        ViewInteraction viewPager5 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager5.perform(swipeRight());
+        viewPager4.perform(swipeRight());
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.alert_img_Btn),
@@ -187,91 +167,6 @@ public class newContactAndAlert {
                                 0),
                         isDisplayed()));
         appCompatImageButton.perform(click());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        utilsTest.waitForIt();
-
-        ViewInteraction tabView6 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        2),
-                        isDisplayed()));
-        tabView6.perform(click());
-
-        ViewInteraction viewPager6 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager6.perform(swipeLeft());
-
-        ViewInteraction tabView7 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        0),
-                        isDisplayed()));
-        tabView7.perform(click());
-
-        ViewInteraction viewPager7 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager7.perform(swipeRight());
-
-        ViewInteraction tabView8 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        2),
-                        isDisplayed()));
-        tabView8.perform(click());
-
-        ViewInteraction viewPager8 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager8.perform(swipeLeft());
-
-        ViewInteraction tabView9 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.tabs),
-                                0),
-                        0),
-                        isDisplayed()));
-        tabView9.perform(click());
-
-        ViewInteraction viewPager9 = onView(
-                allOf(withId(R.id.viewPager),
-                        childAtPosition(
-                                allOf(withId(R.id.main_content),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        viewPager9.perform(swipeRight());
 
     }
 
