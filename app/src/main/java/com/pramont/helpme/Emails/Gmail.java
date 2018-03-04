@@ -52,7 +52,7 @@ public class Gmail extends Constants{
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(TO)); // TO
             message.setSubject(userSettings.getSubject());
-            message.setText(userSettings.getDefaultMessaje()+JUMP_LINE+userSettings.getLocation());
+            message.setText(userSettings.getDefaultMessage()+JUMP_LINE+userSettings.getLocation());
 
             Transport.send(message);
 

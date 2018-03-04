@@ -9,7 +9,7 @@ public class UserSettings {
     private String password;
     private String bodyMessage;
     private String subject;
-    private String defaultMessaje;
+    private String defaultMessage;
     private String location;
     private boolean isEmailChecked;
     private int sensibility;
@@ -32,12 +32,12 @@ public class UserSettings {
         this.subject = subject;
     }
 
-    public String getDefaultMessaje() {
-        return defaultMessaje;
+    public String getDefaultMessage() {
+        return defaultMessage;
     }
 
-    public void setDefaultMessaje(String defaultMessaje) {
-        this.defaultMessaje = defaultMessaje;
+    public void setDefaultMessage(String defaultMessage) {
+        this.defaultMessage = defaultMessage;
     }
 
     public String getLocation() {

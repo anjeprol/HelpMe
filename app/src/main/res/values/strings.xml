@@ -65,5 +65,8 @@
     <string name="dialog_wait">Please wait...</string>
     <string name="sms_error_message">SMS failed, try again</string>
 
+    <string name="default_sms_text">Please help me, I am in troubles, this is my last location </string>
+    <string name="contact_notification">You are receiving this message because you are one emergency contact from this number </string>
+
 
 </resources>

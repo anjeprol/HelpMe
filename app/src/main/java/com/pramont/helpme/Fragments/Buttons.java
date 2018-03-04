@@ -175,7 +175,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         boolean isPhone = false;
         loadData();
-        mProfile.setDefaultMessaje(getString(R.string.gmail_default_message));
+        mProfile.setDefaultMessage(getString(R.string.gmail_default_message));
         mProfile.setSubject(getString(R.string.gmail_subject));
         //TODO add the location here and activate
         mProfile.setLocation(getString(R.string.url_gmaps));
@@ -229,8 +229,8 @@ public class Buttons extends Fragment implements View.OnClickListener {
             try
             {
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(string, null, mProfile.getDefaultMessaje(), null, null);
-                Log.d("SMS", "Enviando a :" + string + " Mensaje: " + mProfile.getDefaultMessaje());
+                smsManager.sendTextMessage(string, null, mProfile.getDefaultMessage(), null, null);
+                Log.d("SMS", "Enviando a :" + string + " Mensaje: " + mProfile.getDefaultMessage());
             }
             catch (android.content.ActivityNotFoundException ex)
             {
