@@ -6,25 +6,86 @@
              android:background="@color/background"
              tools:context="com.pramont.helpme.Fragments.Buttons">
 
-
-    <TextView
-        android:id="@+id/tv_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_red_button"
-        android:text="@string/press_it"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textSize="50dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textStyle="bold"/>
-
-    <ImageButton
-        android:id="@+id/imgBtn"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@null"
-        android:src="@drawable/ic_red_button"/>
+        android:paddingTop="@dimen/margin_top_notifications_table_layout">
+
+        <TableRow
+            android:layout_marginLeft="@dimen/margin_fields"
+            android:layout_marginRight="@dimen/margin_fields">
+
+            <ImageButton
+                android:id="@+id/service_img_Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/ic_red_button"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lef_notifications"
+                android:layout_marginTop="@dimen/margin_top_notifications"
+                android:text="@string/service_notification_section_tv"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_notifications"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/service_message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lef_notifications"
+                android:layout_marginTop="@dimen/margin_top_notifications"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/disabled"
+                android:textSize="@dimen/text_size_notifications"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginLeft="@dimen/margin_fields"
+            android:layout_marginRight="@dimen/margin_fields"
+            android:paddingTop="@dimen/margin_top_notifications">
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginLeft="@dimen/margin_fields"
+            android:layout_marginRight="@dimen/margin_fields">
+
+            <ImageButton
+                android:id="@+id/alert_img_Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/ic_red_button"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lef_notifications"
+                android:layout_marginTop="@dimen/margin_top_notifications"
+                android:text="Alerts"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_notifications"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/alert_message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lef_notifications"
+                android:layout_marginTop="@dimen/margin_top_notifications"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/disabled"
+                android:textSize="@dimen/text_size_notifications"
+                android:textStyle="bold"/>
+        </TableRow>
+    </TableLayout>
+
 
 </FrameLayout>

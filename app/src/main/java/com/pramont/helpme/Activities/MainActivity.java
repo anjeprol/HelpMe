@@ -1,53 +1,67 @@
 package com.pramont.helpme.Activities;
 
+import android.content.Context;
+
 import android.support.design.widget.TabLayout;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import com.pramont.helpme.Fragments.Buttons;
 import com.pramont.helpme.Fragments.Contacts;
 import com.pramont.helpme.Fragments.Settings;
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
+import com.pramont.helpme.Utils.Constants;
+import com.pramont.helpme.Utils.Preferences;
+import com.pramont.helpme.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private final static String TAG = "MainActivity";
 
-    private Toolbar     mToolbar;
-    private TabLayout   mTabLayout;
-    private ViewPager   mViewPager;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private UserSettings mProfile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadData();
+        Utils utils = new Utils(this, mProfile);
 
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        mToolbar    = (Toolbar) findViewById(R.id.toolbar);
-        mViewPager  = (ViewPager) findViewById(R.id.viewPager);
-        mTabLayout  = (TabLayout) findViewById(R.id.tabs);
-
-        setSupportActionBar(mToolbar);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true); to add the arrow getting back to previous activity
+        mProfile = utils.getUserData(new Preferences(getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        utils.checkPermissions();
 
         setupViewPager(mViewPager);
         setupTabIcons();
     }
 
-    /*
+    private void loadData() {
+        mProfile = new Utils()
+                .getUserData(
+                        new Preferences(this
+                                .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+    }
+
+    /**
     * Method to add the icons to each tab from toolBar
     * */
     private void setupTabIcons() {
@@ -63,11 +77,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
     * Method to add the fragments into the viewPager
     * */
 
     private void setupViewPager(ViewPager viewPager) {
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new Buttons(), getString(R.string.title_1));
         adapter.addFrag(new Settings(), getString(R.string.title_3));
@@ -75,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    /*
+
+    /**
     * Class for setup the viewPager using the FragmentPagerAdapter
     * */
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -107,28 +123,5 @@ public class MainActivity extends AppCompatActivity {
             // return null to display only the icon
             return null;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

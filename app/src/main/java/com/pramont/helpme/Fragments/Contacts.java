@@ -1,10 +1,15 @@
 package com.pramont.helpme.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -17,8 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
+import com.pramont.helpme.Utils.Preferences;
+import com.pramont.helpme.Utils.Utils;
+import com.pramont.helpme.sms.Notifications;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,31 +43,44 @@ public class Contacts extends Fragment implements View.OnClickListener {
     LinearLayout mEmail_container;
     LinearLayout mPhone_container;
     LinearLayout mSpace_lly;
+    private boolean isNew = false;
     private TextView mEmail_tv;
     private TextView mPhone_tv;
     private EditText mEmail_et;
     private EditText mPhone_et;
     private Button mAddBtn;
     private Button mRmvBtn;
-    private int mCoutViews = 0;
+    private int mCountViews = 0;
     private static final int ID_LL_EMAIL = 100;
     private static final int ID_LL_PHONE = 200;
     private static final int ID_ET_EMAIL = 300;
     private static final int ID_ET_PHONE = 400;
     private static final int ID_LL_SP = 500;
+    private boolean mIsEmail = false;
+    private View mRootView;
+    private UserSettings mProfile;
+    private Notifications mNotify;
+    private BroadcastReceiver mEmailReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mIsEmail = intent.getBooleanExtra(Constants.CHECKED_EMAIL, false);
+            changeVisibility();
+        }
+    };
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mNotify = new Notifications(getActivity());
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         //To set the main layout container
-        mContainer_contacts_lly = (LinearLayout) rootView.findViewById(R.id.container_contacts);
+        mContainer_contacts_lly = (LinearLayout) mRootView.findViewById(R.id.container_contacts);
 
         //To load the buttons add and remove
-        LinearLayout hidden_buttons_lly = (LinearLayout) rootView.findViewById(R.id.hiddenButtons);
+        LinearLayout hidden_buttons_lly = (LinearLayout) mRootView.findViewById(R.id.hiddenButtons);
         View buttonsViews = getLayoutInflater(savedInstanceState).inflate(R.layout.hidden_buttons, mContainer_contacts_lly, false);
         mAddBtn = (Button) buttonsViews.findViewById(R.id.add_btn);
         mRmvBtn = (Button) buttonsViews.findViewById(R.id.rmv_btn);
@@ -66,7 +90,132 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         mContainer_contacts_lly.addView(buttonsViews);
 
-        return rootView;
+        loadData();//TODO once the email is back, just uncomment
+        //changeVisibility();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mEmailReceiver, new IntentFilter(Constants.BROADCAST));
+
+        return mRootView;
+    }
+
+    /*
+    * Method to load the preferences from sharedPreferences
+    * */
+    private void loadData() {
+        EditText emailTo_et;
+        EditText phoneTo_et;
+        mProfile = new Utils()
+                .getUserData(
+                        new Preferences(getActivity()
+                                .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+        mIsEmail = mProfile.isEmailChecked();
+        for (int index = 0; index < mProfile.getPhoneNumbers().size(); index++)
+        {
+            mCountViews = index;
+            loadContactsFields();
+            emailTo_et = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
+            phoneTo_et = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
+            if (index < mProfile.getMailsTo().size())
+            {
+                emailTo_et.setText(mProfile.getMailsTo().get(index));
+            }
+            phoneTo_et.setText(mProfile.getPhoneNumbers().get(index));
+        }
+    }
+
+    /*
+    * Method to change the visibility according the status for the email switch, hiding or showing
+    * the email layout
+    * */
+    private void changeVisibility() {
+        LinearLayout emailContainer_ll;
+        if (mIsEmail)
+        {
+            for (int index = 0; index < mCountViews; index++)
+            {
+                emailContainer_ll = (LinearLayout) mRootView.findViewById(ID_LL_EMAIL + index);
+                emailContainer_ll.setVisibility(View.VISIBLE);
+            }
+        }
+        else
+        {
+            for (int index = 0; index < mCountViews; index++)
+            {
+                emailContainer_ll = (LinearLayout) mRootView.findViewById(ID_LL_EMAIL + index);
+                emailContainer_ll.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mEmailReceiver);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ArrayList<String> phones_al = new ArrayList<>();
+        ArrayList<String> emails_al = new ArrayList<>();
+        EditText phones;
+        EditText emails;
+
+        mProfile = new Utils()
+                .getUserData
+                        (new Preferences(
+                                getActivity().
+                                        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
+
+        String tmp;
+        for (int index = 0; index < mCountViews; index++)
+        {
+            phones = (EditText) mRootView.findViewById(ID_ET_PHONE + index);
+            tmp = phones.getText().toString().trim();
+            if (!tmp.isEmpty())
+            {
+                phones_al.add(index, tmp);
+            }
+
+            if (mProfile.isEmailChecked())
+            {
+                emails = (EditText) mRootView.findViewById(ID_ET_EMAIL + index);
+                tmp = emails.getText().toString().trim();
+                if (!tmp.isEmpty())
+                {
+                    emails_al.add(index, tmp);
+                }
+            }
+        }
+        mProfile.setMailsTo(emails_al);
+        mProfile.setPhoneNumbers(phones_al);
+
+        //Setting the sharedPreference in order to send the user information for sharedPreferences
+        Preferences preferences = new Preferences(
+                getContext()
+                        .getSharedPreferences(Constants.PREFERENCES, getContext().MODE_PRIVATE));
+        //Saving the whole structure from user preferences, at this point al the values should be
+        //into the structure for settings fragment
+        preferences.setPreferences(mProfile);
+        //TODO  add the contact notifications
+        if (isNew)
+        {
+            notifyContact();
+            isNew = false;
+        }
+
+
+    }
+
+    private void notifyContact() {
+        StringBuilder message = new StringBuilder();
+        message.append(getString(R.string.prefix_app_name) + " ")
+                .append(getString(R.string.app_name))
+                .append("\n")
+                .append(getString(R.string.contact_notification));
+        //TODO build  the notification message
+        mProfile.setDefaultMessage(message.toString());
+
+        mNotify.sendSMS(mProfile);
     }
 
     /*
@@ -101,16 +250,18 @@ public class Contacts extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Integer contacts_limit = getResources().getInteger(R.integer.max_contacts);
         StringBuilder stringBuilderMsg = new StringBuilder();
-        stringBuilderMsg.append(contacts_limit);
-        stringBuilderMsg.append(" ");
-        stringBuilderMsg.append(getResources().getString(R.string.contacts_limit));
+        stringBuilderMsg
+                .append(contacts_limit)
+                .append(Constants.DEFAULT_VALUE + " ")
+                .append(getResources().getString(R.string.contacts_limit));
 
         switch (view.getId())
         {
             case R.id.add_btn:
-                if (mCoutViews < contacts_limit)
+                if (mCountViews < contacts_limit)
                 {
                     loadContactsFields();
+                    isNew = true;
                 }
                 else
                 {
@@ -118,9 +269,10 @@ public class Contacts extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.rmv_btn:
-                if (mCoutViews > 0)
+                if (mCountViews > 0)
                 {
                     removeContactsFields();
+                    isNew = false;
                 }
                 else
                 {
@@ -134,26 +286,26 @@ public class Contacts extends Fragment implements View.OnClickListener {
     * Method to delete the Linear Layouts from email and phone
     * */
     private void removeContactsFields() {
-        int id_ll_email = ID_LL_EMAIL + mCoutViews - 1;
-        int id_ll_phone = ID_LL_PHONE + mCoutViews - 1;
-        int id_ll_space = ID_LL_SP + mCoutViews - 1;
+        int id_ll_email = ID_LL_EMAIL + mCountViews - 1;
+        int id_ll_phone = ID_LL_PHONE + mCountViews - 1;
+        int id_ll_space = ID_LL_SP + mCountViews - 1;
 
         deleteView(id_ll_email);
         deleteView(id_ll_phone);
         deleteView(id_ll_space);
 
-        mCoutViews--;
+        mCountViews--;
     }
 
-    private void deleteView(int id){
+    private void deleteView(int id) {
         View viewToDelete = mContainer_contacts_lly.findViewById(id);
-        ViewGroup parent  = (ViewGroup) viewToDelete.getParent();
+        ViewGroup parent = (ViewGroup) viewToDelete.getParent();
         parent.removeView(viewToDelete);
     }
 
     /*
-    * method to load all the fields per contact
-    * */
+        * method to load all the fields per contact
+        * */
     private void loadContactsFields() {
 
 
@@ -166,10 +318,9 @@ public class Contacts extends Fragment implements View.OnClickListener {
 
         addEmailField();
         addPhoneField();
-
         addSpaces();
 
-        mCoutViews++;
+        mCountViews++;
     }
 
     /*
@@ -178,14 +329,14 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addPhoneField() {
         mPhone_tv = getView(mPhone_tv, R.string.phone, mParamsFieldsTv);
         mPhone_container = new LinearLayout(getContext());
-        mPhone_container = getContainerLayout(mPhone_container, ID_LL_PHONE + mCoutViews);
+        mPhone_container = getContainerLayout(mPhone_container, ID_LL_PHONE + mCountViews);
         mPhone_container.addView(mPhone_tv);
 
         mPhone_et = getView(mPhone_et,
                 R.string.phone_hint,
                 mParamsFieldsEt,
                 InputType.TYPE_CLASS_PHONE,
-                ID_ET_PHONE + mCoutViews);
+                ID_ET_PHONE + mCountViews);
         //To set the maxLength from edit text, in this case for 10 numbers
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(Constants.MAX_LENG);
@@ -201,14 +352,18 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addEmailField() {
         mEmail_tv = getView(mEmail_tv, R.string.email, mParamsFieldsTv);
         mEmail_container = new LinearLayout(getContext());
-        mEmail_container = getContainerLayout(mEmail_container, ID_LL_EMAIL + mCoutViews);
+        mEmail_container = getContainerLayout(mEmail_container, ID_LL_EMAIL + mCountViews);
 
         mEmail_container.addView(mEmail_tv);
 
         mEmail_et = getView(mEmail_et,
                 R.string.email_hint, mParamsFieldsEt,
                 InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-                ID_ET_EMAIL + mCoutViews);
+                ID_ET_EMAIL + mCountViews);
+        if (!mIsEmail)
+        {
+            mEmail_container.setVisibility(View.GONE);
+        }
 
         mEmail_container.addView(mEmail_et);
         mContainer_contacts_lly.addView(mEmail_container);
@@ -221,7 +376,7 @@ public class Contacts extends Fragment implements View.OnClickListener {
     private void addSpaces() {
         // To set the spaces
         mSpace_lly = new LinearLayout(getContext());
-        mSpace_lly = getSpaceLayout(mSpace_lly, ID_LL_SP+mCoutViews);
+        mSpace_lly = getSpaceLayout(mSpace_lly, ID_LL_SP + mCountViews);
         mContainer_contacts_lly.addView(mSpace_lly);
     }
 
@@ -248,4 +403,5 @@ public class Contacts extends Fragment implements View.OnClickListener {
         editText.setId(id);
         return editText;
     }
+
 }

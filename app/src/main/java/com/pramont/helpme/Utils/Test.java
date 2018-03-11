@@ -11,6 +11,6 @@ public class Test {
         Utils utils = new Utils();
         String testString = "antoniopradoo@gmail.com,anjeprol_prado@hotmail.com,anjeprolprado@gmail.com,prolananjeprol@gmail.com,otrocorreo@hotmail.com";
 
-        ArrayList<String> stringArrayList = utils.getEmails(testString);
+        ArrayList<String> stringArrayList = utils.splitString(testString);
     }
 }
