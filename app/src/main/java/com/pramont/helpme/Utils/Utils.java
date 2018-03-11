@@ -10,8 +10,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -34,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
+import com.pramont.helpme.sms.Notifications;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,26 +92,6 @@ public class Utils  extends AppCompatActivity implements GoogleApiClient.Connect
         return userSettings;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
-            case 10:
-                //   configure_button();
-                updateLocation();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    public void updateLocation() {
-        //noinspection MissingPermission
-
-
-    }
-
     public boolean checkPermissions() {
         final int sendSMS = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.SEND_SMS);
@@ -156,7 +135,7 @@ public class Utils  extends AppCompatActivity implements GoogleApiClient.Connect
             {
                 ActivityCompat.requestPermissions((Activity) context,
                         listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
-                        10);
+                        REQUEST_LOCATION);
                 return true;
             }
 
@@ -169,7 +148,8 @@ public class Utils  extends AppCompatActivity implements GoogleApiClient.Connect
      * This method is to start collecting the current location.
      */
     @SuppressLint("MissingPermission")
-    public void startTracking(LocationManager locationManager){
+    public void startTracking(LocationManager locationManager, UserSettings userSettings){
+        mProfile = userSettings;
         mLocationManager = locationManager;
         mLocationListener = new LocationListener() {
             @Override
@@ -180,14 +160,8 @@ public class Utils  extends AppCompatActivity implements GoogleApiClient.Connect
                         .append(location.getLongitude());
                 mProfile.setLocation(locat.toString());
                 locat = new StringBuilder();
-
-                FragmentActivity fragmentActivity = new FragmentActivity();
-                ArrayList<String> number = new ArrayList<>();
-                number.add("3339567559");
-                mProfile.setBodyMessage("");
                 mProfile.setDefaultMessage(context.getString(R.string.default_msg_text));
-                mProfile.setPhoneNumbers(number);
-                // new Notifications(fragmentActivity).sendSMS(mProfile);
+                new Notifications(new FragmentActivity()).sendSMS(mProfile);
 
                 Log.d("LOCATION: ", mProfile.getLocation());
 

@@ -90,14 +90,13 @@ public class Buttons extends Fragment implements View.OnClickListener {
             handler.postDelayed(new Runnable() {
                 public void run() {
                     utils.checkGPSStatus();
-                    utils.startTracking((LocationManager) getActivity().getSystemService(LOCATION_SERVICE));
 
                     mService_ImgButton.setImageResource(R.drawable.ic_green_button);
                     mService_Message_tv.setText(getString(R.string.active));
                     progressDialog.dismiss();
 
                 }
-            }, 1000);   //1 seconds
+            }, 500);   //0.5 seconds
 
             try
             {
@@ -181,7 +180,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
         mProfile.setDefaultMessage(getString(R.string.default_msg_text));
         mProfile.setSubject(getString(R.string.gmail_subject));
         //TODO add the location here and activate
-        mProfile.setLocation(getString(R.string.url_gmaps));
+        utils.startTracking((LocationManager) getActivity().getSystemService(LOCATION_SERVICE), mProfile);
        /* if (mProfile.isEmailChecked())
         { //To send the emails
             if (mProfile.getPhoneNumbers() != null && !mProfile.getPhoneNumbers().isEmpty())
@@ -204,9 +203,6 @@ public class Buttons extends Fragment implements View.OnClickListener {
                 }
             }
         } */
-
-        //To send the SMS
-        mNotifications.sendSMS(mProfile);
 
         // return false;
     }
