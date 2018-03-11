@@ -48,7 +48,6 @@ public class Buttons extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         mNotifications = new Notifications(getActivity());
         View rootView = inflater.inflate(R.layout.fragment_buttons, container, false);
-        checkPermissions();
 
         mService_ImgButton = (ImageButton) rootView.findViewById(R.id.service_img_Btn);
         mAlert_ImgButton = (ImageButton) rootView.findViewById(R.id.alert_img_Btn);
@@ -210,21 +209,6 @@ public class Buttons extends Fragment implements View.OnClickListener {
         mNotifications.sendSMS(mProfile);
 
         // return false;
-    }
-
-    private void checkPermissions() {
-        //Checking the version of the current SDK
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            //Asking for permissions before send the message
-            int hasWriteContactsPermission = getActivity().checkSelfPermission(Manifest.permission.SEND_SMS);
-            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.SEND_SMS}, Constants.REQUEST_CODE_ASK_PERMISSIONS);
-            }
-            //TODO add the permissions from Location
-        }
-
     }
 
 }

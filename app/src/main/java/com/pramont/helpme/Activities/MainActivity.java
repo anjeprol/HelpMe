@@ -1,5 +1,8 @@
 package com.pramont.helpme.Activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,8 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +30,7 @@ import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
 import com.pramont.helpme.Utils.Preferences;
 import com.pramont.helpme.Utils.Utils;
+import com.pramont.helpme.sms.Notifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +61,38 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
 
+        if(checkPermissions())
+        {
+            startGPS();
+        }
+
+
+        setupViewPager(mViewPager);
+        setupTabIcons();
+    }
+
+    public void startGPS(){
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                updateLocation();
                 locat.append(getString(R.string.url_gmaps))
                         .append(location.getLatitude())
                         .append(",")
                         .append(location.getLongitude());
                 mProfile.setLocation(locat.toString());
                 locat = new StringBuilder();
-                Log.d("LOCATION: ",mProfile.getLocation());
+
+                FragmentActivity fragmentActivity = new FragmentActivity();
+                ArrayList<String> number = new ArrayList<>();
+                number.add("3339567559");
+                mProfile.setBodyMessage("");
+                mProfile.setDefaultMessage(getString(R.string.default_msg_text));
+                mProfile.setPhoneNumbers(number);
+                // new Notifications(fragmentActivity).sendSMS(mProfile);
+
+                Log.d("LOCATION: ", mProfile.getLocation());
 
             }
 
@@ -84,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-
-        updateLocation();
-        setupViewPager(mViewPager);
-        setupTabIcons();
     }
 
     @Override
@@ -103,23 +126,61 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void updateLocation() {
-        // first check for permissions
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+    private boolean checkPermissions() {
+        final int sendSMS = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS);
+
+        final int coarseLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        final int fineLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        final int internet = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET);
+
+        final List<String> listPermissionsNeeded = new ArrayList<>();
+
+
+        if (sendSMS != PackageManager.PERMISSION_GRANTED)
         {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.INTERNET}, 10);
-            }
-            return;
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
         }
+
+        if (coarseLocation != PackageManager.PERMISSION_GRANTED)
+        {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+
+        if (fineLocation != PackageManager.PERMISSION_GRANTED)
+        {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (internet != PackageManager.PERMISSION_GRANTED)
+        {
+            listPermissionsNeeded.add(Manifest.permission.INTERNET);
+        }
+
+        //Checking the version of the current SDK
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if (!listPermissionsNeeded.isEmpty())
+            {
+                ActivityCompat.requestPermissions(this,
+                        listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
+                        10);
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    @SuppressLint("MissingPermission")
+    void updateLocation() {
         //noinspection MissingPermission
-        mLocationManager.requestLocationUpdates("gps", 5000, 0, mLocationListener);
+        mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, 5000, 0, mLocationListener);
     }
 
 
