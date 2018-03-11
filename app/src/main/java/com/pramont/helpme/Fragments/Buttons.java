@@ -1,31 +1,27 @@
 package com.pramont.helpme.Fragments;
 
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.pramont.helpme.Emails.Gmail;
 import com.pramont.helpme.Pojos.NotificationSettings.UserSettings;
 import com.pramont.helpme.R;
 import com.pramont.helpme.Utils.Constants;
 import com.pramont.helpme.Utils.Preferences;
 import com.pramont.helpme.Utils.Utils;
 import com.pramont.helpme.sms.Notifications;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +37,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
     private ProgressDialog progressDialog;
     private UserSettings mProfile;
     private Notifications mNotifications;
+    private Utils utils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +54,7 @@ public class Buttons extends Fragment implements View.OnClickListener {
         mService_ImgButton.setOnClickListener(this);
         mAlert_ImgButton.setOnClickListener(this);
         loadData();
+        utils = new Utils(getActivity(), mProfile);
         return rootView;
     }
 
@@ -91,6 +89,8 @@ public class Buttons extends Fragment implements View.OnClickListener {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    utils.checkGPSStatus();
+                    utils.startTracking((LocationManager) getActivity().getSystemService(LOCATION_SERVICE));
 
                     mService_ImgButton.setImageResource(R.drawable.ic_green_button);
                     mService_Message_tv.setText(getString(R.string.active));

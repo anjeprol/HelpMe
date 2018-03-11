@@ -3,13 +3,17 @@ package com.pramont.helpme.Activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -18,10 +22,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.pramont.helpme.Fragments.Buttons;
 import com.pramont.helpme.Fragments.Contacts;
 import com.pramont.helpme.Fragments.Settings;
@@ -36,12 +54,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private final static String TAG = "MainActivity";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    /**Used to turn gps on.*/
+    private GoogleApiClient googleApiClient;
+    /**To request gps on.*/
+    Context context ;
+    /**To get user location.*/
+    private FusedLocationProviderClient mFusedLocationClient;
+    /**Ti get location.*/
+    private LocationCallback locationCallback;
+    public static final int REQUEST_LOCATION = 199;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
     private StringBuilder locat = new StringBuilder();
@@ -52,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Utils utils = new Utils();
+        loadData();
+        Utils utils = new Utils(this, mProfile);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -61,17 +89,17 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
 
-        if(checkPermissions())
-        {
-            startGPS();
-        }
-
+        utils.checkPermissions();
 
         setupViewPager(mViewPager);
         setupTabIcons();
     }
+/*
+    /**
+     * This method is to start collecting the current location.
 
-    public void startGPS(){
+    public void startTracking(){
+        turnOnGps();
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
             @Override
@@ -108,72 +136,72 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProviderDisabled(String s) {
-
             }
         };
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
-            case 10:
-                //   configure_button();
-                updateLocation();
-                break;
-            default:
-                break;
+
+    /*
+     * This method is to ask for enable the gps.
+
+    public void turnOnGps (){
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(context)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(final ConnectionResult connectionResult) {
+
+                        }
+                    }).build();
         }
+        googleApiClient.connect();
+
+        final LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(30 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
+        final LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setNeedBle(true);
+        builder.setAlwaysShow(true);
+
+        final Task<LocationSettingsResponse> result =
+                LocationServices.getSettingsClient(context).checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(final Task<LocationSettingsResponse> task) {
+                try {
+                    final LocationSettingsResponse response = task.getResult(ApiException.class);
+                } catch (final ApiException exception) {
+                    if (exception.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED) {
+                        try {
+                            final ResolvableApiException resolvable = (ResolvableApiException) exception;
+                            resolvable.startResolutionForResult(
+                                    (Activity) context,
+                                    REQUEST_LOCATION);
+                        } catch (final Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    private boolean checkPermissions() {
-        final int sendSMS = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS);
-
-        final int coarseLocation = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        final int fineLocation = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-
-        final int internet = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.INTERNET);
-
-        final List<String> listPermissionsNeeded = new ArrayList<>();
-
-
-        if (sendSMS != PackageManager.PERMISSION_GRANTED)
-        {
-            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+    public boolean checkGPSStatus() {
+        final String locationProviders = android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if (locationProviders == null || locationProviders.equals("")) {
+            turnOnGps();
+            return false;
         }
 
-        if (coarseLocation != PackageManager.PERMISSION_GRANTED)
-        {
-            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (checkPermissions()) {
+            return true;
         }
 
-        if (fineLocation != PackageManager.PERMISSION_GRANTED)
-        {
-            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-
-        if (internet != PackageManager.PERMISSION_GRANTED)
-        {
-            listPermissionsNeeded.add(Manifest.permission.INTERNET);
-        }
-
-        //Checking the version of the current SDK
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if (!listPermissionsNeeded.isEmpty())
-            {
-                ActivityCompat.requestPermissions(this,
-                        listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
-                        10);
-                return true;
-            }
-
-        }
         return false;
     }
 
@@ -181,19 +209,30 @@ public class MainActivity extends AppCompatActivity {
     void updateLocation() {
         //noinspection MissingPermission
         mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, 5000, 0, mLocationListener);
+
     }
 
+    @SuppressLint("MissingPermission")
+    public void stopRequestingLocation() {
+        try {
+            if (mFusedLocationClient.getLocationAvailability() != null || mFusedLocationClient.getLocationAvailability().isSuccessful()) {
+                mFusedLocationClient.removeLocationUpdates(locationCallback);
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+*/
 
-    /*
-    * Method to load the shared preferences
-    * */
+
     private void loadData() {
-        Preferences preferences = new Preferences(getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE));
-
-        mProfile = preferences.getPreferences();
+        mProfile = new Utils()
+                .getUserData(
+                        new Preferences(this
+                                .getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)));
     }
 
-    /*
+    /**
     * Method to add the icons to each tab from toolBar
     * */
     private void setupTabIcons() {
@@ -209,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
     * Method to add the fragments into the viewPager
     * */
 
@@ -221,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFrag(new Contacts(), getString(R.string.title_2));
         viewPager.setAdapter(adapter);
     }
+
 
     /*
     * Class for setup the viewPager using the FragmentPagerAdapter
