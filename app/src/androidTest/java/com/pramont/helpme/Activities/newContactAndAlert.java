@@ -1,4 +1,4 @@
-package com.pramont.helpme;
+package com.pramont.helpme.Activities;
 
 
 import android.support.test.espresso.ViewInteraction;

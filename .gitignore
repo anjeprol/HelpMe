@@ -1,7 +1,7 @@
 # configuration files #
 #######################
-.idea
-.gradle
+.idea/
+.gradle/
 *.iml
 build/android-profile/profile-2018-03-03-22-08-24-292.json
 build/android-profile/profile-2018-03-03-22-08-24-292.rawproto
