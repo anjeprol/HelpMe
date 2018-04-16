@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_lef_notifications"
                 android:layout_marginTop="@dimen/margin_top_notifications"
+                android:textColor="@color/ligthGray"
                 android:text="@string/service_notification_section_tv"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_notifications"
@@ -39,6 +40,7 @@
                 android:layout_marginLeft="@dimen/margin_lef_notifications"
                 android:layout_marginTop="@dimen/margin_top_notifications"
                 android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/ligthGray"
                 android:text="@string/disabled"
                 android:textSize="@dimen/text_size_notifications"
                 android:textStyle="bold"/>
@@ -71,6 +73,7 @@
                 android:layout_marginTop="@dimen/margin_top_notifications"
                 android:text="Alerts"
                 android:textAllCaps="true"
+                android:textColor="@color/ligthGray"
                 android:textSize="@dimen/text_size_notifications"
                 android:textStyle="bold"/>
 
@@ -80,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_lef_notifications"
                 android:layout_marginTop="@dimen/margin_top_notifications"
+                android:textColor="@color/ligthGray"
                 android:fontFamily="sans-serif-smallcaps"
                 android:text="@string/disabled"
                 android:textSize="@dimen/text_size_notifications"

@@ -26,6 +26,7 @@
                     android:layout_marginLeft="@dimen/margin_right"
                     android:layout_marginTop="@dimen/margin_top_down"
                     android:text="@string/section_notification"
+                    android:textColor="@color/ligthGray"
                     android:textSize="@dimen/text_lb_size"
                     android:textStyle="bold"/>
             </RelativeLayout>
@@ -43,6 +44,7 @@
                     android:layout_width="@dimen/width_fields"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_lb_message"
+                    android:textColor="@color/ligthGray"
                     android:textStyle="bold"/>
 
                 <EditText
@@ -101,6 +103,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/ligthGray"
                     android:text="@string/section_shake"
                     android:textSize="@dimen/text_lb_size"
                     android:textStyle="bold"/>
@@ -120,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_right"
                     android:text="@string/tv_lb_sensibility"
+                    android:textColor="@color/ligthGray"
                     android:textStyle="bold"/>
 
                 <TextView
